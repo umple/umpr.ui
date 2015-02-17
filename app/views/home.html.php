@@ -1,0 +1,92 @@
+<div class="container mtb">
+  <div class="row">
+    <!-- LEFT PANE -->
+    <div class="col-lg-12">
+
+      <table class="table table-condensed table-bordered table-condensed umplify-summary">
+        <tr>
+          <th>Owner</th>
+          <th>Project</th>
+          <th>Version</th>
+        </tr>
+        <tr>
+          <td>umple-ucsop</td>
+          <td>umple.sample.downloader</td>
+          <td>master</td>
+        </tr>
+        <tr>
+          <td>umple-ucsop</td>
+          <td>umple.sample.downloader</td>
+          <td>master</td>
+        </tr>
+        <tr>
+          <td>umple-ucsop</td>
+          <td>umple.sample.downloader</td>
+          <td>master</td>
+        </tr>
+        <tr>
+          <td>umple-ucsop</td>
+          <td>umple.sample.downloader</td>
+          <td>master</td>
+        </tr>
+        <tr>
+          <td>umple-ucsop</td>
+          <td>umple.sample.downloader</td>
+          <td>master</td>
+        </tr>
+        <tr>
+          <td>umple-ucsop</td>
+          <td>umple.sample.downloader</td>
+          <td>master</td>
+        </tr>
+        <tr>
+          <td>umple-ucsop</td>
+          <td>umple.sample.downloader</td>
+          <td>master</td>
+        </tr>
+        <tr>
+          <td>umple-ucsop</td>
+          <td>umple.sample.downloader</td>
+          <td>master</td>
+        </tr>
+        <tr>
+          <td>umple-ucsop</td>
+          <td>umple.sample.downloader</td>
+          <td>master</td>
+        </tr>
+        <tr>
+          <td>umple-ucsop</td>
+          <td>umple.sample.downloader</td>
+          <td>master</td>
+        </tr>
+        <tr>
+          <td>umple-ucsop</td>
+          <td>umple.sample.downloader</td>
+          <td>master</td>
+        </tr>
+        <tr>
+          <td>umple-ucsop</td>
+          <td>umple.sample.downloader</td>
+          <td>master</td>
+        </tr>
+        <tr>
+          <td>umple-ucsop</td>
+          <td>umple.sample.downloader</td>
+          <td>master</td>
+        </tr>
+        <tr>
+          <td>umple-ucsop</td>
+          <td>umple.sample.downloader</td>
+          <td>master</td>
+        </tr>
+        <tr>
+          <td>umple-ucsop</td>
+          <td>umple.sample.downloader</td>
+          <td>master</td>
+        </tr>
+      </table>
+
+    </div>
+
+  </div>
+</div>
