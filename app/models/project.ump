@@ -1,0 +1,17 @@
+
+
+class Project
+{
+
+  public static function listOwners($umplifyDir = null)
+  {
+    if ($umplifyDir == null)
+    {
+      $umplifyDir = getenv("UMPLIFY_DIR");
+    }
+    $allDirs = scandir($umplifyDir);
+    $owners = array_filter($allDirs, function($d) { return !in_array($d, array(".","..",".DS_Store")); });
+    return array_values($owners);
+  }
+
+}

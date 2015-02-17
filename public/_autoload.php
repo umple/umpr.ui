@@ -7,6 +7,8 @@ $GLOBALS["configDir"] = resolve_path("config");
 $GLOBALS["vendorDir"] = realpath($_SERVER["DOCUMENT_ROOT"] . "/../app/vendor");
 $GLOBALS["baseDir"] = realpath($_SERVER["DOCUMENT_ROOT"] . "/..");
 $GLOBALS["testsDir"] = realpath($_SERVER["DOCUMENT_ROOT"] . "/../app/tests");
+$GLOBALS["fixtures"] = realpath($_SERVER["DOCUMENT_ROOT"] . "/../app/fixtures");
+
 
 setg("pageName",basename($_SERVER['PHP_SELF']));
 

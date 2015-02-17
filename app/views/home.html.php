@@ -9,81 +9,14 @@
           <th>Project</th>
           <th>Version</th>
         </tr>
-        <tr>
-          <td>umple-ucsop</td>
-          <td>umple.sample.downloader</td>
-          <td>master</td>
-        </tr>
-        <tr>
-          <td>umple-ucsop</td>
-          <td>umple.sample.downloader</td>
-          <td>master</td>
-        </tr>
-        <tr>
-          <td>umple-ucsop</td>
-          <td>umple.sample.downloader</td>
-          <td>master</td>
-        </tr>
-        <tr>
-          <td>umple-ucsop</td>
-          <td>umple.sample.downloader</td>
-          <td>master</td>
-        </tr>
-        <tr>
-          <td>umple-ucsop</td>
-          <td>umple.sample.downloader</td>
-          <td>master</td>
-        </tr>
-        <tr>
-          <td>umple-ucsop</td>
-          <td>umple.sample.downloader</td>
-          <td>master</td>
-        </tr>
-        <tr>
-          <td>umple-ucsop</td>
-          <td>umple.sample.downloader</td>
-          <td>master</td>
-        </tr>
-        <tr>
-          <td>umple-ucsop</td>
-          <td>umple.sample.downloader</td>
-          <td>master</td>
-        </tr>
-        <tr>
-          <td>umple-ucsop</td>
-          <td>umple.sample.downloader</td>
-          <td>master</td>
-        </tr>
-        <tr>
-          <td>umple-ucsop</td>
-          <td>umple.sample.downloader</td>
-          <td>master</td>
-        </tr>
-        <tr>
-          <td>umple-ucsop</td>
-          <td>umple.sample.downloader</td>
-          <td>master</td>
-        </tr>
-        <tr>
-          <td>umple-ucsop</td>
-          <td>umple.sample.downloader</td>
-          <td>master</td>
-        </tr>
-        <tr>
-          <td>umple-ucsop</td>
-          <td>umple.sample.downloader</td>
-          <td>master</td>
-        </tr>
-        <tr>
-          <td>umple-ucsop</td>
-          <td>umple.sample.downloader</td>
-          <td>master</td>
-        </tr>
-        <tr>
-          <td>umple-ucsop</td>
-          <td>umple.sample.downloader</td>
-          <td>master</td>
-        </tr>
+
+        <?php foreach(Project::listOwners() as $owner) { ?>
+          <tr>
+            <td><?php echo $owner; ?></td>
+            <td></td>
+            <td></td>
+          </tr>
+        <?php } ?>
       </table>
 
     </div>
