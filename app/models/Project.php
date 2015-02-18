@@ -35,10 +35,8 @@ class Project
   // line 6 project.ump
   public static function listOwners ($umplifyDir = null) 
   {
-    if ($umplifyDir == null)
-    {
-      $umplifyDir = getenv("UMPLIFY_DIR");
-    }
+    if ($umplifyDir == null) { $umplifyDir = getenv("UMPLIFY_DIR"); }
+    if ($umplifyDir == null) { $umplifyDir = "/data/umplify_projects"; }
     $allDirs = scandir($umplifyDir);
     $owners = array_filter($allDirs, function($d) { return !in_array($d, array(".","..",".DS_Store")); });
     return array_values($owners);
