@@ -1,2 +1,2 @@
-# umplifyonline
-A web UI to show what has been umplified
+# umple.sample.downloader.www
+Front-end for umple.sample.downloader
