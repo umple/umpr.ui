@@ -1,0 +1,107 @@
+namespace ADELFE;
+
+class Classifier
+{
+}
+
+class Environnement
+{
+	isA //Classifier;
+	0..1 environnement -- 1..* //Element element;
+}
+
+class Element
+{
+	isA //Classifier;
+	0..1 element -- 1..* //Environnement environnement;
+	0..1 elementA -- 1..* //CooperativeAgent action;
+	0..1 elementP -- 1..* //CooperativeAgent perception;
+}
+
+class CooperativeAgent
+{
+	0..1 action -- 1..* //Element elementA;
+	0..1 perception -- 1..* //Element elementP;
+	0..1 cooperativeAgentR -- 1..* //Representation representation;
+	0..1 cooperativeAgentS -- 1..* //Skill skill;
+	0..1 cooperativeAgentA -- * //Aptitude aptitude;
+	0..1 cooperativeAgentCha -- * //Characteristic characteristic;
+	0..1 cooperativeAgentCom -- * //Communication communication;
+	0..1 -> 1..* //CooperationRules observes;
+}
+
+class Representation
+{
+	0..1 representation -- 1..* //CooperativeAgent cooperativeAgentR;
+	0..1 -> 1..* //Element element;
+}
+
+class Skill
+{
+	0..1 skill -- 1..* //CooperativeAgent cooperativeAgentS;
+}
+
+class Aptitude
+{
+	0..1 aptitude -- 1..* //CooperativeAgent cooperativeAgentA;
+}
+
+class Characteristic
+{
+	0..1 characteristic -- 1..* //CooperativeAgent cooperativeAgentCha;
+}
+
+class Communication
+{
+	0..1 communication -- 1..* //CooperativeAgent cooperativeAgentCom;
+	0..1 -> * //AIP aip;
+}
+
+class AIP
+{
+}
+
+class CooperationRules
+{
+	0..1 cooperationRules -- 1..* //NCS detects;
+}
+
+class NCS
+{
+	0..1 detects -- 1..* //CooperationRules cooperationRules;
+}
+
+class Incomprehension
+{
+	isA //NCS;
+}
+
+class Ambiguity
+{
+	isA //NCS;
+}
+
+class Incompetence
+{
+	isA //NCS;
+}
+
+class Unproductiveness
+{
+	isA //NCS;
+}
+
+class Concurrency
+{
+	isA //NCS;
+}
+
+class Conflict
+{
+	isA //NCS;
+}
+
+class Uselessness
+{
+	isA //NCS;
+}

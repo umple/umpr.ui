@@ -1,0 +1,68 @@
+namespace PrimitiveTypes;
+
+class Boolean
+{
+}
+
+class Integer
+{
+}
+
+class String
+{
+}
+
+namespace AbstractSynthax;
+
+class ModelElement
+{
+	0..1 referenceValue -- * TaggedValue referenceTag;
+	* constrainedElement -- * Constraint constraint;
+	0..1 -> * TaggedValue taggedValue;
+	* extendedElement -- * Stereotype stereotype;
+}
+
+class Constraint
+{
+	* stereotypeConstraint -- * Stereotype constrainedStereotype;
+}
+
+class TaggedValue
+{
+	String dataValue;
+	* typedValue -- 1..* TagDefinition type;
+}
+
+class TagDefinition
+{
+	isA ModelElement;
+	String tagType;
+	0..1 -> 1..* Multiplicity multiplicity;
+	* definedTag -- * Stereotype owner;
+}
+
+class Multiplicity
+{
+	String value;
+}
+
+class GeneralizableElement
+{
+}
+
+class Stereotype
+{
+	isA GeneralizableElement;
+	0..1 -> 1..* Geometry icon;
+	0..1 -> * Name baseClass;
+}
+
+class Geometry
+{
+	String value;
+}
+
+class Name
+{
+	String value;
+}
