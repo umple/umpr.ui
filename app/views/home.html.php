@@ -41,10 +41,22 @@
                   <?php echo $file["path"] ?>
                 </a>
               </td>
-              <td><?php echo unicodeString($file["successful"] ? '\u2713' : '\u2718') ?></td>
+              <td>
+                <span class="label
+                  <?php if ($file["successful"]) { ?>
+                    label-success">
+                    <span class="glyphicon glyphicon-ok-circle" ></span> Success
+                  <?php } else { ?>
+                    label-danger"
+                    title="<?php echo htmlentities($file["message"]) ?>" >
+                    <span class="glyphicon glyphicon-remove-circle" ></span> Failed
+                  <?php } ?>
+                </span>
+              </td>
+
               <td>
                 <a href="<?php echo $umpleOnlineUrl . $_SERVER["SERVER_NAME"].":".$_SERVER["SERVER_PORT"]."/data/".$repo["path"]."/".$file["path"] ?>">
-                  Umple Online
+                  Link
                 </a>
               </td>
             </tr>
