@@ -1,4 +1,0 @@
-
-generate Php;
-use project.ump;
-use util.ump;
