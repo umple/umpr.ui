@@ -31,20 +31,42 @@
         ?>
 
         <?php foreach ($data["repositories"] as $repo) { ?>
-          <?php foreach ($repo["files"] as $file) { ?>
+          <?php foreach ($repo["files"] as $file) {
+            $filePath = "./data/" . $repo["name"] . "/" . $file["path"];
+
+            ?>
             <tr>
               <td><?php echo $repo["name"]; ?></td>
               <td><?php echo $repo["diagramType"]; ?></td>
               <td><?php echo $file["type"]; ?></td>
               <td>
-                <a href="/data/<?php echo $repo["name"]."/".$file["path"] ?>">
-                  <?php echo $file["path"] ?>
-                </a>
+                <?php
+                  if (filesize($filePath) > 0) { ?>
+                    <a href="<?php echo $filePath ?>">
+                      <?php echo $file["path"] ?>
+                    </a>
+                  <?php } else { ?>
+                    <span style="color:darkred" title="Unable to import umple model">
+                      <?php echo $file["path"] ?>
+                    </span>
+                  <?php } ?>
               </td>
-              <td><?php echo unicodeString($file["successful"] ? '\u2713' : '\u2718') ?></td>
+              <td>
+                <span class="label
+                  <?php if ($file["successful"]) { ?>
+                    label-success">
+                    <span class="glyphicon glyphicon-ok-circle" ></span> Success
+                  <?php } else { ?>
+                    label-danger"
+                    title="<?php echo htmlentities($file["message"]) ?>" >
+                    <span class="glyphicon glyphicon-remove-circle" ></span> Failed
+                  <?php } ?>
+                </span>
+              </td>
+
               <td>
                 <a href="<?php echo $umpleOnlineUrl . $_SERVER["SERVER_NAME"].":".$_SERVER["SERVER_PORT"]."/data/".$repo["path"]."/".$file["path"] ?>">
-                  Umple Online
+                  Link
                 </a>
               </td>
             </tr>

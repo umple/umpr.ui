@@ -4,7 +4,8 @@
 <meta name="description" content="<?php echo $GLOBALS["viewables"]["meta-description"] ?>">
 <meta name="keywords" content="<?php echo $GLOBALS["viewables"]["meta-keywords"] ?>">
 <meta name="author" content="">
-<link rel="shortcut icon" href="/scripts/solid/ico/favicon.ico">
+
+<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
 
 <title><?php echo $GLOBALS["viewables"]['title'] ?></title>
 
@@ -16,10 +17,25 @@
 <link href="/scripts/solid/css/font-awesome.min.css" rel="stylesheet">
 <link href="/scripts/solid_helper.css" rel="stylesheet">
 
-<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-<!--[if lt IE 9]>
-  <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-  <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-<![endif]-->
-
-<script src="/scripts/solid/js/modernizr.js"></script>
+<!-- ****** faviconit.com favicons ****** -->
+<link rel="shortcut icon" href="/favicon/favicon.ico">
+<link rel="icon" sizes="16x16 32x32 64x64" href="/favicon/favicon.ico">
+<link rel="icon" type="image/png" sizes="196x196" href="/favicon/favicon-192.png">
+<link rel="icon" type="image/png" sizes="160x160" href="/favicon/favicon-160.png">
+<link rel="icon" type="image/png" sizes="96x96" href="/favicon/favicon-96.png">
+<link rel="icon" type="image/png" sizes="64x64" href="/favicon/favicon-64.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16.png">
+<link rel="apple-touch-icon" href="/favicon/favicon-57.png">
+<link rel="apple-touch-icon" sizes="114x114" href="/favicon/favicon-114.png">
+<link rel="apple-touch-icon" sizes="72x72" href="/favicon/favicon-72.png">
+<link rel="apple-touch-icon" sizes="144x144" href="/favicon/favicon-144.png">
+<link rel="apple-touch-icon" sizes="60x60" href="/favicon/favicon-60.png">
+<link rel="apple-touch-icon" sizes="120x120" href="/favicon/favicon-120.png">
+<link rel="apple-touch-icon" sizes="76x76" href="/favicon/favicon-76.png">
+<link rel="apple-touch-icon" sizes="152x152" href="/favicon/favicon-152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/favicon/favicon-180.png">
+<meta name="msapplication-TileColor" content="#FFFFFF">
+<meta name="msapplication-TileImage" content="/favicon/favicon-144.png">
+<meta name="msapplication-config" content="/favicon/browserconfig.xml">
+<!-- ****** faviconit.com favicons ****** -->

@@ -6,3 +6,4 @@
 <script src="/scripts/solid/js/jquery.prettyPhoto.js"></script>
 <script src="/scripts/solid/js/jquery.isotope.min.js"></script>
 <script src="/scripts/solid/js/custom.js"></script>
+<script src="/scripts/solid/js/modernizr.js"></script>
