@@ -1,4 +1,4 @@
-public/data/ # done intentionally to force updates
+public/data # done intentionally to force updates
 
 *.class
 
