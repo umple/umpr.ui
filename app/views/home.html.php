@@ -31,15 +31,25 @@
         ?>
 
         <?php foreach ($data["repositories"] as $repo) { ?>
-          <?php foreach ($repo["files"] as $file) { ?>
+          <?php foreach ($repo["files"] as $file) {
+            $filePath = "./data/" . $repo["name"] . "/" . $file["path"];
+
+            ?>
             <tr>
               <td><?php echo $repo["name"]; ?></td>
               <td><?php echo $repo["diagramType"]; ?></td>
               <td><?php echo $file["type"]; ?></td>
               <td>
-                <a href="/data/<?php echo $repo["name"]."/".$file["path"] ?>">
-                  <?php echo $file["path"] ?>
-                </a>
+                <?php
+                  if (filesize($filePath) > 0) { ?>
+                    <a href="<?php echo $filePath ?>">
+                      <?php echo $file["path"] ?>
+                    </a>
+                  <?php } else { ?>
+                    <span style="color:darkred" title="Unable to import umple model">
+                      <?php echo $file["path"] ?>
+                    </span>
+                  <?php } ?>
               </td>
               <td>
                 <span class="label

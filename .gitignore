@@ -1,3 +1,5 @@
+public/data/ # done intentionally to force updates
+
 *.class
 
 # Mobile Tools for Java (J2ME)
