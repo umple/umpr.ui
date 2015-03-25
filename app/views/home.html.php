@@ -34,6 +34,8 @@
           <?php foreach ($repo["files"] as $file) {
             $filePath = "./data/" . $repo["name"] . "/" . $file["path"];
 
+            $idTag = str_replace(".", "-", $file["path"]);
+
             ?>
             <tr>
               <td><?php echo $repo["name"]; ?></td>
@@ -52,16 +54,19 @@
                   <?php } ?>
               </td>
               <td>
-                <span class="label
-                  <?php if ($file["successful"]) { ?>
-                    label-success">
+                <?php if ($file["successful"]) { ?>
+                  <span class="label label-success">
                     <span class="glyphicon glyphicon-ok-circle" ></span> Success
-                  <?php } else { ?>
-                    label-danger"
-                    title="<?php echo htmlentities($file["message"]) ?>" >
+                  </span>
+                <?php } else { ?>
+                  <a class="btn btn-danger accordion-toggle"
+                     data-toggle="collapse"
+                     href="#message-row-<?php echo $idTag ?>"
+                     aria-expanded="false"
+                     aria-controls="collapseExample">
                     <span class="glyphicon glyphicon-remove-circle" ></span> Failed
-                  <?php } ?>
-                </span>
+                  </a>
+                <?php } ?>
               </td>
 
               <td>
@@ -70,6 +75,17 @@
                 </a>
               </td>
             </tr>
+
+            <?php // write the extra row:
+            if (!$file["successful"]) { ?>
+                <tr>
+                  <td colspan="6" style="padding: 0 !important;">
+                    <div class="accordian-body collapse" id="message-row-<?php echo $idTag ?>">
+                      <?php echo $file["message"] ?>
+                    </div>
+                  </td>
+                </tr>
+            <?php } ?>
         <?php
           }
         }
