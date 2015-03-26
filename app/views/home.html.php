@@ -3,8 +3,8 @@
     <!-- LEFT PANE -->
     <div class="col-lg-12">
 
-      <table class="table table-condensed table-bordered table-condensed umplify-summary">
-        <tr>
+      <table class="table table-condensed table-bordered table-condensed umpr-summary">
+        <thead>
           <th>Repository</th>
           <th>Diagram Type</th>
           <th>Data Type</th>
@@ -12,7 +12,7 @@
           <th>Successful</th>
           <th>Umple Online</th>
 
-        </tr>
+        </thead>
 
         <?php
         $jsonData = file_get_contents("data/meta.json");
@@ -28,48 +28,69 @@
           return preg_replace_callback('/\\\\u([0-9a-fA-F]{4})/u', create_function('$match', 'return mb_convert_encoding(pack("H*", $match[1]), '.var_export($encoding, true).', "UTF-16BE");'), $str);
         }
 
+        $ImportStates = array(
+            "Fetch"    => 0,
+            "Import"   => 1,
+            "Model"    => 2,
+            "Complete" => 3
+        );
+
         ?>
 
         <?php foreach ($data["repositories"] as $repo) { ?>
           <?php foreach ($repo["files"] as $file) {
-            $filePath = "./data/" . $repo["name"] . "/" . $file["path"];
+            $folder = "./data/" . $repo["name"] . "/";
 
             $idTag = str_replace(".", "-", $file["path"]);
 
             ?>
             <tr>
-              <td><?php echo $repo["name"]; ?></td>
-              <td><?php echo $repo["diagramType"]; ?></td>
-              <td><?php echo $file["type"]; ?></td>
-              <td>
-                <?php
-                  if (filesize($filePath) > 0) { ?>
-                    <a href="<?php echo $filePath ?>">
-                      <?php echo $file["path"] ?>
-                    </a>
-                  <?php } else { ?>
-                    <span style="color:darkred" title="Unable to import umple model">
-                      <?php echo $file["path"] ?>
-                    </span>
-                  <?php } ?>
+              <td class="col-repo-name"><?php echo $repo["name"]; ?></td>
+              <td class="col-diagram-type"><?php echo $repo["diagramType"]; ?></td>
+              <td class="col-data-type"><?php echo $file["type"]; ?></td>
+              <td class="col-name">
+                <?php echo $file["path"] ?>
+
+                &nbsp;
+
+                <div style="float: right">
+
+                <?php if ($file["successful"] || $ImportStates[$file["lastState"]] > $ImportStates["Fetch"]) { ?>
+                  <a href="<?php echo $folder . $file["path"] ?>">(Source)</a>
+                <?php } else { ?>
+                  <span class="text-warning" title="Unable to fetch source">(Source)</span>
+                <?php } ?>
+
+                &nbsp;
+
+                <?php if ($file["successful"] || $ImportStates[$file["lastState"]] >= $ImportStates["Model"] ) { ?>
+                  <a href="<?php echo $folder . $file["path"] . ".ump" ?>">(Model)</a>
+                <?php } else { ?>
+                  <span class="text-warning" title="Unable to import umple model">(Model)</span>
+                <?php } ?>
+
+                </div>
+
               </td>
-              <td>
+              <td class="col-state-info">
                 <?php if ($file["successful"]) { ?>
-                  <span class="label label-success">
-                    <span class="glyphicon glyphicon-ok-circle" ></span> Success
+                  <span class="status-badge status-badge-success">
+                    <span class="glyphicon glyphicon-ok-circle"></span>Success
                   </span>
                 <?php } else { ?>
-                  <a class="btn btn-danger accordion-toggle"
-                     data-toggle="collapse"
-                     href="#message-row-<?php echo $idTag ?>"
-                     aria-expanded="false"
-                     aria-controls="collapseExample">
-                    <span class="glyphicon glyphicon-remove-circle" ></span> Failed
-                  </a>
+                  <button class="btn btn-danger status-badge status-badge-failed"
+                          type="button"
+                          data-toggle="collapse"
+                          data-target="#message-row-<?php echo $idTag ?>"
+                          aria-expanded="false"
+                          aria-controls="message-row-<?php echo $idTag ?>">
+                    <span class="glyphicon glyphicon-remove-circle"></span><?php echo $file["lastState"] ?>
+                    <span class="glyphicon collapse-direction" ></span>
+                  </button>
                 <?php } ?>
               </td>
 
-              <td>
+              <td class="col-umple-online">
                 <a href="<?php echo $umpleOnlineUrl . $_SERVER["SERVER_NAME"].":".$_SERVER["SERVER_PORT"]."/data/".$repo["path"]."/".$file["path"] ?>">
                   Link
                 </a>
@@ -78,10 +99,10 @@
 
             <?php // write the extra row:
             if (!$file["successful"]) { ?>
-                <tr>
+                <tr class="error-info">
                   <td colspan="6" style="padding: 0 !important;">
                     <div class="accordian-body collapse" id="message-row-<?php echo $idTag ?>">
-                      <?php echo $file["message"] ?>
+                      <pre><?php echo $file["message"] ?></pre>
                     </div>
                   </td>
                 </tr>

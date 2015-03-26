@@ -17,6 +17,8 @@
 <link href="/scripts/solid/css/font-awesome.min.css" rel="stylesheet">
 <link href="/scripts/solid_helper.css" rel="stylesheet">
 
+<link href="/css/main.css" rel="stylesheet">
+
 <!-- ****** faviconit.com favicons ****** -->
 <link rel="shortcut icon" href="/favicon/favicon.ico">
 <link rel="icon" sizes="16x16 32x32 64x64" href="/favicon/favicon.ico">
