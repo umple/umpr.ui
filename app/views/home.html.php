@@ -175,9 +175,14 @@ $diagramTypes = array_unique($diagramTypes, SORT_STRING);
               </td>
 
               <td class="col-umple-online">
-                <a href="<?php echo $umpleOnlineUrl . $_SERVER["SERVER_NAME"].":".$_SERVER["SERVER_PORT"]."/data/".$repo["path"]."/".$file["path"] ?>">
-                  Link
-                </a>
+                <?php if ($file["successful"] || $ImportStates[$file["lastState"]] >= $ImportStates["Model"] ) { ?>
+                  <a href="<?php echo $umpleOnlineUrl . $_SERVER["SERVER_NAME"].":".$_SERVER["SERVER_PORT"]."/data/".$repo["path"]."/".$file["path"] ?>">
+                    Link
+                  </a>
+                <?php } else { ?>
+                  <span class="text-warning" title="Unable to import umple model">Link</span>
+                <?php } ?>
+
               </td>
             </tr>
 
