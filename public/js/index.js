@@ -14,7 +14,12 @@
         // All data-* tags used for tables
         var tags = ['repository', 'diagram-type', 'last-state', 'input-type', 'name'];
 
+        var shouldRunFilters = true;
         function _runFilters() {
+            if (!shouldRunFilters) {
+                return;
+            }
+
             var $filterGroup = $('.filter-group');
 
             // child selector used below in $toShow variable
@@ -57,6 +62,19 @@
             $('#filter-' + tag, $filterGroup).change(function () {
                 _runFilters();
             });
+        });
+
+        $('#filter-reset-btn', $filterGroup).click(function () {
+            var $filterGroup = $('.filter-group');
+
+            shouldRunFilters = false;
+            tags.forEach(function (tag) {
+                $('#filter-' + tag, $filterGroup).val("null");
+            });
+            $('#filter-name').val("");
+
+            shouldRunFilters = true;
+            _runFilters();
         });
 
         /*

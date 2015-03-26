@@ -58,10 +58,21 @@
 
 
 .filter-group {
+  margin-top: 30px;
+
   $labelWidth: 100px;
+  $inputWidth: 90%;
 
   .input-group {
-    width: 90%;
+    width: $inputWidth;
+  }
+
+  .filter-reset {
+    width: $inputWidth;
+
+    button {
+      float: right;
+    }
   }
 
   select, input {

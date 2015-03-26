@@ -39,10 +39,10 @@ $diagramTypes = array_unique($diagramTypes, SORT_STRING);
 
 ?>
 
-<div class="container mtb">
-
-  <div class="filter-group">
-    <div class="form-inline">
+<div class="container">
+  <div class="filter-group panel">
+    <h4>Filters</h4>
+    <div class="well form-inline">
       <div class="row">
         <div class="col-md-4">
           <label for="filter-repository">Repository &nbsp;</label>
@@ -64,9 +64,7 @@ $diagramTypes = array_unique($diagramTypes, SORT_STRING);
             <?php } ?>
           </select>
         </div>
-      </div>
 
-      <div class="row">
         <div class="col-md-4">
           <label for="filter-input-type">Input Type &nbsp;</label>
           <select class="input-control" id="filter-input-type">
@@ -76,34 +74,42 @@ $diagramTypes = array_unique($diagramTypes, SORT_STRING);
             <?php } ?>
           </select>
         </div>
+      </div>
 
+      <div class="row">
         <div class="col-md-4">
-          <div class="input-group">
-            <label for="filter-name">Name &nbsp;</label>
-            <input type="text" class="input-control" id="filter-name" placeholder="Name..">
-          </div>
+          <label for="filter-name">Name &nbsp;</label>
+          <input type="text" class="input-control" id="filter-name" placeholder="Name..">
         </div>
 
         <div class="col-md-4">
-          <div class="input-group">
-            <label for="filter-last-state">Failure State &nbsp;</label>
-            <select class="input-control" id="filter-last-state">
-              <option value="null"></option>
-              <?php foreach (array_keys($ImportStates) as $state) { ?>
-                <option><?= $state ?></option>
-              <?php } ?>
-            </select>
+          <label for="filter-last-state">Failure State &nbsp;</label>
+          <select class="input-control" id="filter-last-state">
+            <option value="null"></option>
+            <?php foreach (array_keys($ImportStates) as $state) { ?>
+              <option><?= $state ?></option>
+            <?php } ?>
+          </select>
+        </div>
+
+        <div class="col-md-4">
+          <div class="filter-reset">
+            <button id="filter-reset-btn"
+                    class="btn btn-sm btn-danger">
+              Reset
+            </button>
           </div>
         </div>
       </div>
-
-    </div>
-
+    </div> <!-- filter box -->
   </div>
+</div>
 
-  <div class="row">
+<div class="container">
+
+  <div class="row panel">
     <!-- LEFT PANE -->
-    <div class="col-lg-12">
+    <div class="col-lg-12 panel-body">
 
       <table class="table table-condensed table-bordered table-condensed umpr-summary">
         <thead>
