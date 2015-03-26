@@ -33,9 +33,9 @@ foreach ($data["repositories"] as $repo) {
   }
 }
 
-array_unique($repoNames);
-array_unique($fileTypes);
-array_unique($diagramTypes);
+$repoNames = array_unique($repoNames, SORT_STRING);
+$fileTypes = array_unique($fileTypes, SORT_STRING);
+$diagramTypes = array_unique($diagramTypes, SORT_STRING);
 
 ?>
 
@@ -68,8 +68,8 @@ array_unique($diagramTypes);
 
       <div class="row">
         <div class="col-md-4">
-          <label for="filter-file-type">Input Type &nbsp;</label>
-          <select class="input-control" id="filter-file-type">
+          <label for="filter-input-type">Input Type &nbsp;</label>
+          <select class="input-control" id="filter-input-type">
             <option value="null"></option>
             <?php foreach ($fileTypes as $type) { ?>
               <option><?= $type ?></option>

@@ -5,13 +5,14 @@
 
 (function (window) {
 
+    /**
+     * Filters Module
+     */
     var Filters = {};
     (function (filters) {
 
-        var $filterGroup = $('.filter-group');
-
-
-        var tags = ['repository', 'diagram-type', 'last-state', 'file-type', 'name'];
+        // All data-* tags used for tables
+        var tags = ['repository', 'diagram-type', 'last-state', 'input-type', 'name'];
 
         function _runFilters() {
             var $filterGroup = $('.filter-group');
@@ -48,17 +49,35 @@
             console.log('results =', $(selector));
         }
 
+        // Init code:
+
+        var $filterGroup = $('.filter-group');
+
         tags.forEach(function (tag) {
             $('#filter-' + tag, $filterGroup).change(function () {
                 _runFilters();
             });
         });
 
+        /*
+         * Expose modules
+         */
+
+        /**
+         * Run the filters against the front end UI code
+         * @type {Function}
+         */
+        filters.runFilters = _runFilters;
+
     })(Filters);
 
+    /**
+     * Table module
+     */
     var Table = {};
     (function (table) {
 
+        // Init code:
         var $infoErrors = $('.umpr-summary .info-error');
 
         $infoErrors.on('hidden.bs.collapse', function () {
