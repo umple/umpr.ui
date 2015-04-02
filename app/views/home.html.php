@@ -180,7 +180,8 @@ $diagramTypes = array_unique($diagramTypes, SORT_STRING);
 
               <td class="col-umple-online">
                 <?php if ($file["successful"] || $ImportStates[$file["lastState"]] >= $ImportStates["Model"] ) { ?>
-                  <a href="<?php echo $umpleOnlineUrl . $_SERVER["SERVER_NAME"].":".$_SERVER["SERVER_PORT"]."/data/".$repo["path"]."/".$file["path"] ?>">
+                  <a target="_blank"
+                     href="<?php echo $umpleOnlineUrl . $_SERVER["SERVER_NAME"].":".$_SERVER["SERVER_PORT"]."/data/".$repo["path"]."/".$file["path"] ?>">
                     Link
                   </a>
                 <?php } else { ?>
