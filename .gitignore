@@ -1,3 +1,6 @@
+# intentionally ignore
+public/data
+
 *.class
 
 # Mobile Tools for Java (J2ME)
@@ -8,7 +11,7 @@
 *.war
 *.ear
 
-#ide
+# WebStorm
 .idea/
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
