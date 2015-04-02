@@ -1,21 +1,12 @@
 # intentionally ignore
-public/data
+vendor/
+public/data/umpr_repos/
+app/logs/
 
-*.class
+composer.lock
 
-# Mobile Tools for Java (J2ME)
-.mtj.tmp/
-
-# Package Files #
-*.jar
-*.war
-*.ear
-
-# WebStorm
+# *Stork products
 .idea/
-
-# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
-hs_err_pid*
 
 .DS_Store
 

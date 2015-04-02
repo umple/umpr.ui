@@ -1,17 +1,12 @@
 
 <?php
-$jsonData = file_get_contents("data/meta.json");
-
-$data = json_decode($jsonData, true);
-
-//        echo "<pre>$jsonData</pre>";
-
-$umpleOnlineUrl = "http://cruise.eecs.uottawa.ca/umpleonline/?filename=";
 
 function unicodeString($str, $encoding=null) {
   if (is_null($encoding)) $encoding = ini_get('mbstring.internal_encoding');
   return preg_replace_callback('/\\\\u([0-9a-fA-F]{4})/u', create_function('$match', 'return mb_convert_encoding(pack("H*", $match[1]), '.var_export($encoding, true).', "UTF-16BE");'), $str);
 }
+
+$umpleOnlineUrl = "http://cruise.eecs.uottawa.ca/umpleonline/?filename=";
 
 $ImportStates = array(
     "Fetch"    => 0,
@@ -19,6 +14,9 @@ $ImportStates = array(
     "Model"    => 2,
     "Complete" => 3
 );
+
+$jsonData = file_get_contents($GLOBALS['umprRepo']['dir'] . '/meta.json');
+$data = json_decode($jsonData, true);
 
 $repoNames = [];
 $fileTypes = [];
