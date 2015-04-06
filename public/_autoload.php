@@ -1,14 +1,17 @@
 <?php
+
 if (function_exists('date_default_timezone_set')) date_default_timezone_set('America/New_York');
 
 $GLOBALS["appDir"] = resolve_path("app");
 $GLOBALS["viewables"] = array();
 $GLOBALS["configDir"] = resolve_path("config");
 $GLOBALS["vendorDir"] = realpath($_SERVER["DOCUMENT_ROOT"] . "/../app/vendor");
-$GLOBALS["baseDir"] = realpath($_SERVER["DOCUMENT_ROOT"] . "/..");
+$GLOBALS["baseDir"]   = realpath($_SERVER["DOCUMENT_ROOT"] . "/..");
+$GLOBALS["logDir"]    = realpath($_SERVER["DOCUMENT_ROOT"] . '/../app/logs');
 $GLOBALS["testsDir"] = realpath($_SERVER["DOCUMENT_ROOT"] . "/../app/tests");
 $GLOBALS["fixtures"] = realpath($_SERVER["DOCUMENT_ROOT"] . "/../app/fixtures");
 
+require_once $GLOBALS['baseDir'] . '/vendor/autoload.php';
 
 setg("pageName",basename($_SERVER['PHP_SELF']));
 
@@ -32,13 +35,13 @@ function resolve_path($name)
   return file_exists($publicRoot) ? realpath($publicRoot) : realpath($appRoot);
 }
 
-function __autoload($class_name)
-{
+
+spl_autoload_register(function ($class_name) {
   if (file_exists($GLOBALS["appDir"] . "/models/{$class_name}.php"))
   {
     require_once $GLOBALS["appDir"] . "/models/{$class_name}.php";
   }
-}
+});
 
 function setg($lookup,$val)
 {
@@ -99,3 +102,21 @@ function g($lookup,$default = "")
     return $default;
   }
 }
+
+$fileLoc = $_SERVER["DOCUMENT_ROOT"] . "/data/umpr_repos";
+
+$GLOBALS["umprRepo"] = array(
+    "dir" => $fileLoc,
+    "git" => array(
+        "url"    => "https://github.com/umple-ucosp/umpr.data.git",
+        "path"   => $fileLoc,
+        "remote" => "origin",
+        "branch" => "master"
+    )
+);
+
+//$worker = new GitWorker($GLOBALS["umprRepo"]["git"]["url"], $GLOBALS["umprRepo"]["git"]["path"],
+//    $GLOBALS["umprRepo"]["git"]["remote"], $GLOBALS["umprRepo"]["git"]["branch"]);
+//$worker->start(PTHREADS_INHERIT_NONE);
+//
+//$GLOBALS["GitWorker"] = $worker;

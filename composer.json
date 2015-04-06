@@ -1,0 +1,18 @@
+{
+    "name": "umple-ucosp/umpr.ui",
+    "description": "Front end for umpr.core",
+    "require": {
+        "monolog/monolog": "1.13.1",
+        "cpliakas/git-wrapper": "~1.4"
+    },
+    "require-dev": {
+      "simpletest/simpletest": "~1.1"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Kevin Brightwell",
+            "email": "kevin.brightwell2@gmail.com"
+        }
+    ]
+}

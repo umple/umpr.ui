@@ -1,17 +1,12 @@
 
 <?php
-$jsonData = file_get_contents("data/meta.json");
-
-$data = json_decode($jsonData, true);
-
-//        echo "<pre>$jsonData</pre>";
-
-$umpleOnlineUrl = "http://cruise.eecs.uottawa.ca/umpleonline/?filename=";
 
 function unicodeString($str, $encoding=null) {
   if (is_null($encoding)) $encoding = ini_get('mbstring.internal_encoding');
   return preg_replace_callback('/\\\\u([0-9a-fA-F]{4})/u', create_function('$match', 'return mb_convert_encoding(pack("H*", $match[1]), '.var_export($encoding, true).', "UTF-16BE");'), $str);
 }
+
+$umpleOnlineUrl = "http://cruise.eecs.uottawa.ca/umpleonline/?filename=";
 
 $ImportStates = array(
     "Fetch"    => 0,
@@ -19,6 +14,9 @@ $ImportStates = array(
     "Model"    => 2,
     "Complete" => 3
 );
+
+$jsonData = file_get_contents($GLOBALS['umprRepo']['dir'] . '/meta.json');
+$data = json_decode($jsonData, true);
 
 $repoNames = [];
 $fileTypes = [];
@@ -33,16 +31,16 @@ foreach ($data["repositories"] as $repo) {
   }
 }
 
-array_unique($repoNames);
-array_unique($fileTypes);
-array_unique($diagramTypes);
+$repoNames = array_unique($repoNames, SORT_STRING);
+$fileTypes = array_unique($fileTypes, SORT_STRING);
+$diagramTypes = array_unique($diagramTypes, SORT_STRING);
 
 ?>
 
-<div class="container mtb">
-
-  <div class="filter-group">
-    <div class="form-inline">
+<div class="container">
+  <div class="filter-group panel">
+    <h4>Filters</h4>
+    <div class="well form-inline">
       <div class="row">
         <div class="col-md-4">
           <label for="filter-repository">Repository &nbsp;</label>
@@ -64,46 +62,52 @@ array_unique($diagramTypes);
             <?php } ?>
           </select>
         </div>
-      </div>
 
-      <div class="row">
         <div class="col-md-4">
-          <label for="filter-file-type">Input Type &nbsp;</label>
-          <select class="input-control" id="filter-file-type">
+          <label for="filter-input-type">Input Type &nbsp;</label>
+          <select class="input-control" id="filter-input-type">
             <option value="null"></option>
             <?php foreach ($fileTypes as $type) { ?>
               <option><?= $type ?></option>
             <?php } ?>
           </select>
         </div>
+      </div>
 
+      <div class="row">
         <div class="col-md-4">
-          <div class="input-group">
-            <label for="filter-name">Name &nbsp;</label>
-            <input type="text" class="input-control" id="filter-name" placeholder="Name..">
-          </div>
+          <label for="filter-name">Name &nbsp;</label>
+          <input type="text" class="input-control" id="filter-name" placeholder="Name..">
         </div>
 
         <div class="col-md-4">
-          <div class="input-group">
-            <label for="filter-last-state">Failure State &nbsp;</label>
-            <select class="input-control" id="filter-last-state">
-              <option value="null"></option>
-              <?php foreach (array_keys($ImportStates) as $state) { ?>
-                <option><?= $state ?></option>
-              <?php } ?>
-            </select>
+          <label for="filter-last-state">Failure State &nbsp;</label>
+          <select class="input-control" id="filter-last-state">
+            <option value="null"></option>
+            <?php foreach (array_keys($ImportStates) as $state) { ?>
+              <option><?= $state ?></option>
+            <?php } ?>
+          </select>
+        </div>
+
+        <div class="col-md-4">
+          <div class="filter-reset">
+            <button id="filter-reset-btn"
+                    class="btn btn-sm btn-danger">
+              Reset
+            </button>
           </div>
         </div>
       </div>
-
-    </div>
-
+    </div> <!-- filter box -->
   </div>
+</div>
 
-  <div class="row">
+<div class="container">
+
+  <div class="row panel">
     <!-- LEFT PANE -->
-    <div class="col-lg-12">
+    <div class="col-lg-12 panel-body">
 
       <table class="table table-condensed table-bordered table-condensed umpr-summary">
         <thead>
@@ -175,9 +179,15 @@ array_unique($diagramTypes);
               </td>
 
               <td class="col-umple-online">
-                <a href="<?php echo $umpleOnlineUrl . $_SERVER["SERVER_NAME"].":".$_SERVER["SERVER_PORT"]."/data/".$repo["path"]."/".$file["path"] ?>">
-                  Link
-                </a>
+                <?php if ($file["successful"] || $ImportStates[$file["lastState"]] >= $ImportStates["Model"] ) { ?>
+                  <a target="_blank"
+                     href="<?php echo $umpleOnlineUrl . $_SERVER["SERVER_NAME"].":".$_SERVER["SERVER_PORT"]."/data/".$repo["path"]."/".$file["path"] ?>">
+                    Link
+                  </a>
+                <?php } else { ?>
+                  <span class="text-warning" title="Unable to import umple model">Link</span>
+                <?php } ?>
+
               </td>
             </tr>
 
