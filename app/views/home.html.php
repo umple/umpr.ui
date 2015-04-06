@@ -6,9 +6,11 @@ function unicodeString($str, $encoding=null) {
   return preg_replace_callback('/\\\\u([0-9a-fA-F]{4})/u', create_function('$match', 'return mb_convert_encoding(pack("H*", $match[1]), '.var_export($encoding, true).', "UTF-16BE");'), $str);
 }
 
-$umpleOnlineUrl = "http://cruise.eecs.uottawa.ca/umpleonline/?filename=";
+function umpleOnlineUrl($name) {
+  return sprintf($GLOBALS["umpleOnlineUrl"], $name);
+}
 
-$ImportStates = array(
+$IMPORT_STATES = array(
     "Fetch"    => 0,
     "Import"   => 1,
     "Model"    => 2,
@@ -84,8 +86,8 @@ $diagramTypes = array_unique($diagramTypes, SORT_STRING);
           <label for="filter-last-state">Failure State &nbsp;</label>
           <select class="input-control" id="filter-last-state">
             <option value="null"></option>
-            <?php foreach (array_keys($ImportStates) as $state) { ?>
-              <option><?= $state ?></option>
+            <?php foreach ($IMPORT_STATES as $state => $val) { ?>
+              <option value="<?= $state ?>"><?= $state ?></option>
             <?php } ?>
           </select>
         </div>
@@ -143,7 +145,7 @@ $diagramTypes = array_unique($diagramTypes, SORT_STRING);
 
                 <div style="float: right">
 
-                <?php if ($file["successful"] || $ImportStates[$file["lastState"]] > $ImportStates["Fetch"]) { ?>
+                <?php if ($file["successful"] || $IMPORT_STATES[$file["lastState"]] > $IMPORT_STATES["Fetch"]) { ?>
                   <a href="<?= $folder . $file["path"] ?>">(Source)</a>
                 <?php } else { ?>
                   <span class="text-warning" title="Unable to fetch source">(Source)</span>
@@ -151,7 +153,7 @@ $diagramTypes = array_unique($diagramTypes, SORT_STRING);
 
                 &nbsp;
 
-                <?php if ($file["successful"] || $ImportStates[$file["lastState"]] >= $ImportStates["Model"] ) { ?>
+                <?php if ($file["successful"] || $IMPORT_STATES[$file["lastState"]] >= $IMPORT_STATES["Model"] ) { ?>
                   <a href="<?= $folder . $file["path"] . ".ump" ?>">(Model)</a>
                 <?php } else { ?>
                   <span class="text-warning" title="Unable to import umple model">(Model)</span>
@@ -162,11 +164,11 @@ $diagramTypes = array_unique($diagramTypes, SORT_STRING);
               </td>
               <td class="col-state-info">
                 <?php if ($file["successful"]) { ?>
-                  <span class="status-badge status-badge-success">
+                  <span class="status-badge status-badge-success text-center">
                     <span class="glyphicon glyphicon-ok-circle"></span>Success
                   </span>
                 <?php } else { ?>
-                  <button class="btn btn-danger status-badge status-badge-failed"
+                  <button class="btn btn-danger text-center status-badge status-badge-failed"
                           type="button"
                           data-toggle="collapse"
                           data-target="#message-row-<?php echo $idTag ?>"
@@ -179,9 +181,9 @@ $diagramTypes = array_unique($diagramTypes, SORT_STRING);
               </td>
 
               <td class="col-umple-online">
-                <?php if ($file["successful"] || $ImportStates[$file["lastState"]] >= $ImportStates["Model"] ) { ?>
+                <?php if ($file["successful"] || $IMPORT_STATES[$file["lastState"]] >= $IMPORT_STATES["Model"] ) { ?>
                   <a target="_blank"
-                     href="<?php echo $umpleOnlineUrl . $_SERVER["SERVER_NAME"].":".$_SERVER["SERVER_PORT"]."/data/".$repo["path"]."/".$file["path"] ?>">
+                     href="<?= umpleOnlineUrl($_SERVER["SERVER_NAME"].":".$_SERVER["SERVER_PORT"]."/data/".$repo["path"]."/".$file["path"]) ?>">
                     Link
                   </a>
                 <?php } else { ?>

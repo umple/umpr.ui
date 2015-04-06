@@ -7,7 +7,7 @@
 
 <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
 
-<title><?php echo $GLOBALS["viewables"]['title'] ?></title>
+<title><?= $GLOBALS["viewables"]['title'] ?></title>
 
 <!-- Bootstrap core CSS -->
 <link href="/scripts/solid/css/bootstrap.css" rel="stylesheet">
@@ -16,6 +16,8 @@
 <link href="/scripts/solid/css/style.css" rel="stylesheet">
 <link href="/scripts/solid/css/font-awesome.min.css" rel="stylesheet">
 <link href="/scripts/solid_helper.css" rel="stylesheet">
+<link rel="stylesheet" href="/octicons/octicons/octicons.css">
+
 
 <link href="/css/main.css" rel="stylesheet">
 
