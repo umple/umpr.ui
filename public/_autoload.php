@@ -5,8 +5,8 @@ if (function_exists('date_default_timezone_set')) date_default_timezone_set('Ame
 $GLOBALS["appDir"] = resolve_path("app");
 $GLOBALS["viewables"] = array();
 $GLOBALS["configDir"] = resolve_path("config");
-$GLOBALS["vendorDir"] = realpath($_SERVER["DOCUMENT_ROOT"] . "/../app/vendor");
 $GLOBALS["baseDir"]   = realpath($_SERVER["DOCUMENT_ROOT"] . "/..");
+$GLOBALS["vendorDir"] = realpath($GLOBALS['baseDir'] . "/vendor");
 $GLOBALS["logDir"]    = realpath($_SERVER["DOCUMENT_ROOT"] . '/../app/logs');
 $GLOBALS["testsDir"] = realpath($_SERVER["DOCUMENT_ROOT"] . "/../app/tests");
 $GLOBALS["fixtures"] = realpath($_SERVER["DOCUMENT_ROOT"] . "/../app/fixtures");

@@ -11,7 +11,7 @@ Front-end for [umpr.core](https://github.com/umple-ucosp/umpr.core).
 
 1. Clone repository: `git clone https://github.com/umple-ucosp/umpr.ui.git`
 1. Install composer components: `php composer.phar install`, or `composer install` depending on your environment.
-1. Fetch repository data: `./updateData.sh`
+1. Fetch repository data: `./update_data`
 
 ## Running
 
