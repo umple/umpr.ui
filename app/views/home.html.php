@@ -183,7 +183,7 @@ $diagramTypes = array_unique($diagramTypes, SORT_STRING);
               <td class="col-umple-online">
                 <?php if ($file["successful"] || $IMPORT_STATES[$file["lastState"]] >= $IMPORT_STATES["Model"] ) { ?>
                   <a target="_blank"
-                     href="<?= umpleOnlineUrl($_SERVER["SERVER_NAME"] . g('umpr-repos') ."/".$repo["path"]."/".$file["path"]) ?>">
+                     href="<?= umpleOnlineUrl($_SERVER["SERVER_NAME"] . g('umpr-repos') ."/".$repo["path"]."/".$file["path"].'.ump') ?>">
                     Link
                   </a>
                 <?php } else { ?>
