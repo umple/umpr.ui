@@ -124,7 +124,7 @@ $diagramTypes = array_unique($diagramTypes, SORT_STRING);
 
         <?php foreach ($data["repositories"] as $repo) { ?>
           <?php foreach ($repo["files"] as $file) {
-            $folder = "./data/" . $repo["name"] . "/";
+            $folder = g('umpr-repos') . '/' . $repo["name"] . "/";
 
             $idTag = preg_replace("/\\./", "-", $file["path"]);
 
@@ -183,7 +183,7 @@ $diagramTypes = array_unique($diagramTypes, SORT_STRING);
               <td class="col-umple-online">
                 <?php if ($file["successful"] || $IMPORT_STATES[$file["lastState"]] >= $IMPORT_STATES["Model"] ) { ?>
                   <a target="_blank"
-                     href="<?= umpleOnlineUrl($_SERVER["SERVER_NAME"].":".$_SERVER["SERVER_PORT"]."/data/".$repo["path"]."/".$file["path"]) ?>">
+                     href="<?= umpleOnlineUrl($_SERVER["SERVER_NAME"] . g('umpr-repos') ."/".$repo["path"]."/".$file["path"]) ?>">
                     Link
                   </a>
                 <?php } else { ?>
@@ -198,7 +198,7 @@ $diagramTypes = array_unique($diagramTypes, SORT_STRING);
                 <tr class="info-error">
                   <td colspan="6" style="padding: 0 !important;">
                     <div class="accordian-body collapse" id="message-row-<?php echo $idTag ?>">
-                      <pre><?php echo $file["message"] ?></pre>
+                      <pre><?= $file["message"] ?></pre>
                     </div>
                   </td>
                 </tr>
