@@ -18,7 +18,7 @@
           </li>
           <li>
             <a href="https://github.com/umple-ucosp/umpr.ui">
-              Github <span class="octicon octicon-mark-github"></span>
+              Github <span class="fa fa-github"></span>
             </a>
           </li>
         </ul>

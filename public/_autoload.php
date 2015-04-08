@@ -10,7 +10,6 @@ $GLOBALS["vendorDir"] = realpath($GLOBALS['baseDir'] . "/vendor");
 $GLOBALS["logDir"]    = realpath($_SERVER["DOCUMENT_ROOT"] . '/../app/logs');
 $GLOBALS["testsDir"] = realpath($_SERVER["DOCUMENT_ROOT"] . "/../app/tests");
 $GLOBALS["fixtures"] = realpath($_SERVER["DOCUMENT_ROOT"] . "/../app/fixtures");
-$GLOBALS["umpleOnlineUrl"] = "http://cruise.eecs.uottawa.ca/umpleonline/?filename=%s";
 
 require_once $GLOBALS['baseDir'] . '/vendor/autoload.php';
 
@@ -61,6 +60,17 @@ function r($lookup,$default = null)
   }
 }
 
+function srv($lookup, $default = null) {
+  if (isset($_SERVER[$lookup]))
+  {
+    return $_SERVER[$lookup];
+  }
+  else
+  {
+    return $default;
+  }
+}
+
 function s($lookup,$default = null)
 {
   if (isset($_SESSION[$lookup]))
@@ -103,18 +113,6 @@ function g($lookup,$default = "")
     return $default;
   }
 }
-
-$fileLoc = $_SERVER["DOCUMENT_ROOT"] . "/data/umpr_repos";
-
-$GLOBALS["umprRepo"] = array(
-    "dir" => $fileLoc,
-    "git" => array(
-        "url"    => "https://github.com/umple-ucosp/umpr.data.git",
-        "path"   => $fileLoc,
-        "remote" => "origin",
-        "branch" => "master"
-    )
-);
 
 //$worker = new GitWorker($GLOBALS["umprRepo"]["git"]["url"], $GLOBALS["umprRepo"]["git"]["path"],
 //    $GLOBALS["umprRepo"]["git"]["remote"], $GLOBALS["umprRepo"]["git"]["branch"]);

@@ -16,7 +16,6 @@
 <link href="/scripts/solid/css/style.css" rel="stylesheet">
 <link href="/scripts/solid/css/font-awesome.min.css" rel="stylesheet">
 <link href="/scripts/solid_helper.css" rel="stylesheet">
-<link rel="stylesheet" href="/octicons/octicons/octicons.css">
 
 
 <link href="/css/main.css" rel="stylesheet">
