@@ -2,7 +2,6 @@
 session_start();
 require_once("_autoload.php");
 
-
 function require_view($viewName,$locals = array())
 {
   setg("locals",$locals);
