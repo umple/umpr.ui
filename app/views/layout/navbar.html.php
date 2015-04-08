@@ -10,10 +10,9 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <div>
-        <h1><a class="navbar-brand" href="/">Umpr</a> <span class=""</h1>
-        <h3>A collection of open models into Umple-based models</h3>
-      </div>
+      <a class="navbar-brand" href="/">Umpr &nbsp;
+          <span class="navbar-subbrand">Open Umple-based model repository</span>
+      </a>
 
     </div>
     <div class="navbar-collapse collapse navbar-right">
