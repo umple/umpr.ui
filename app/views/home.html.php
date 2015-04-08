@@ -20,9 +20,9 @@ $IMPORT_STATES = array(
 $jsonData = file_get_contents($GLOBALS['umprRepo']['dir'] . '/meta.json');
 $data = json_decode($jsonData, true);
 
-$repoNames = [];
-$fileTypes = [];
-$diagramTypes = [];
+$repoNames = array();
+$fileTypes = array();
+$diagramTypes = array();
 
 foreach ($data["repositories"] as $repo) {
   array_push($repoNames, $repo["name"]);
