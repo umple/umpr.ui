@@ -1,7 +1,8 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="<?= $GLOBALS["viewables"]["meta-description"] ?>">
+<meta name="description" content="<?php echo $GLOBALS["viewables"]["meta-description"] ?>">
+<meta name="keywords" content="<?php echo $GLOBALS["viewables"]["meta-keywords"] ?>">
 <meta name="author" content="">
 
 <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
