@@ -182,7 +182,7 @@ $diagramTypes = array_unique($diagramTypes, SORT_STRING);
                 <?php if ($file["successful"] || $IMPORT_STATES[$file["lastState"]] >= $IMPORT_STATES["Model"] ) { ?>
                   <a href="<?= $folder . $file["path"] . ".ump" ?>">(Model)</a>
                 <?php } else { ?>
-                  <span class="text-warning" title="Unable to import umple model">(Model)</span>
+                  <span class="text-danger" title="Unable to import umple model">(Model)</span>
                 <?php } ?>
 
                 </div>
@@ -211,9 +211,12 @@ $diagramTypes = array_unique($diagramTypes, SORT_STRING);
                   <a target="_blank"
                      href="<?= umple_online_url($repo["path"]."/".$file["path"], $repo['diagramType']) ?>">
                     Link
+                    <?php if (!$file["successful"]) { ?>
+                      &nbsp; <span class="fa fa-exclamation-triangle text-warning" title="Model is invalid." ></span>
+                    <?php } ?>
                   </a>
                 <?php } else { ?>
-                  <span class="text-warning" title="Unable to import umple model">Link</span>
+                  <span class="text-danger" title="Unable to import umple model">Link</span>
                 <?php } ?>
 
               </td>
@@ -223,7 +226,7 @@ $diagramTypes = array_unique($diagramTypes, SORT_STRING);
             if (!$file["successful"]) { ?>
                 <tr class="info-error">
                   <td colspan="6" style="padding: 0 !important;">
-                    <div class="accordian-body collapse" id="message-row-<?php echo $idTag ?>">
+                    <div class="accordian-body collapse" id="message-row-<?= $idTag ?>">
                       <pre><?= $file["message"] ?></pre>
                     </div>
                   </td>
