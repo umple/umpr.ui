@@ -2,6 +2,10 @@
 session_start();
 require_once("_autoload.php");
 
+// site-wide defaults
+setg('meta-description', 'Umpr Imported Umple Model Repository');
+setg('meta-keywords', 'umple,model,repository');
+
 function require_view($viewName,$locals = array())
 {
   setg("locals",$locals);

@@ -1,13 +1,13 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="<?php echo $GLOBALS["viewables"]["meta-description"] ?>">
-<meta name="keywords" content="<?php echo $GLOBALS["viewables"]["meta-keywords"] ?>">
+<meta name="description" content="<?= g("meta-description") ?>">
+<meta name="keywords" content="<?= g("meta-keywords") ?>">
 <meta name="author" content="">
 
 <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
 
-<title><?= $GLOBALS["viewables"]['title'] ?></title>
+<title><?= g('title') ?></title>
 
 <!-- Bootstrap core CSS -->
 <link href="/scripts/solid/css/bootstrap.css" rel="stylesheet">
