@@ -6,8 +6,34 @@ function unicodeString($str, $encoding=null) {
   return preg_replace_callback('/\\\\u([0-9a-fA-F]{4})/u', create_function('$match', 'return mb_convert_encoding(pack("H*", $match[1]), '.var_export($encoding, true).', "UTF-16BE");'), $str);
 }
 
-function umpleOnlineUrl($name) {
-  return sprintf($GLOBALS["umpleOnlineUrl"], $name);
+// http://stackoverflow.com/a/834355
+function str_starts_with($haystack, $needle)
+{
+  $length = strlen($needle);
+  return (substr($haystack, 0, $length) === $needle);
+}
+
+function str_ends_with($haystack, $needle)
+{
+  $length = strlen($needle);
+  if ($length == 0) {
+    return true;
+  }
+
+  return (substr($haystack, -$length) === $needle);
+}
+
+function umple_online_url($name, $type) {
+  $DIAGRAM_TYPES = array(
+      "class" => "GvClass",
+      "state" => "GvState"
+  );
+
+  if (!str_ends_with($name, '.ump')) {
+    $name = $name . '.ump';
+  }
+
+  return sprintf(g('umple-online-url'), srv("SERVER_NAME") . g('umpr-repos') ."/".$name, $DIAGRAM_TYPES[strtolower($type)]);
 }
 
 $IMPORT_STATES = array(
@@ -156,7 +182,7 @@ $diagramTypes = array_unique($diagramTypes, SORT_STRING);
                 <?php if ($file["successful"] || $IMPORT_STATES[$file["lastState"]] >= $IMPORT_STATES["Model"] ) { ?>
                   <a href="<?= $folder . $file["path"] . ".ump" ?>">(Model)</a>
                 <?php } else { ?>
-                  <span class="text-warning" title="Unable to import umple model">(Model)</span>
+                  <span class="text-danger" title="Unable to import umple model">(Model)</span>
                 <?php } ?>
 
                 </div>
@@ -171,10 +197,10 @@ $diagramTypes = array_unique($diagramTypes, SORT_STRING);
                   <button class="btn btn-danger text-center status-badge status-badge-failed"
                           type="button"
                           data-toggle="collapse"
-                          data-target="#message-row-<?php echo $idTag ?>"
+                          data-target="#message-row-<?= $idTag ?>"
                           aria-expanded="false"
-                          aria-controls="message-row-<?php echo $idTag ?>">
-                    <span class="glyphicon glyphicon-remove-circle"></span><?php echo $file["lastState"] ?>
+                          aria-controls="message-row-<?= $idTag ?>">
+                    <span class="glyphicon glyphicon-remove-circle"></span><?= $file["lastState"] ?>
                     <span class="glyphicon collapse-direction" ></span>
                   </button>
                 <?php } ?>
@@ -183,11 +209,14 @@ $diagramTypes = array_unique($diagramTypes, SORT_STRING);
               <td class="col-umple-online">
                 <?php if ($file["successful"] || $IMPORT_STATES[$file["lastState"]] >= $IMPORT_STATES["Model"] ) { ?>
                   <a target="_blank"
-                     href="<?= umpleOnlineUrl($_SERVER["SERVER_NAME"] . g('umpr-repos') ."/".$repo["path"]."/".$file["path"].'.ump') ?>">
+                     href="<?= umple_online_url($repo["path"]."/".$file["path"], $repo['diagramType']) ?>">
                     Link
+                    <?php if (!$file["successful"]) { ?>
+                      &nbsp; <span class="fa fa-exclamation-triangle text-warning" title="Model is invalid." ></span>
+                    <?php } ?>
                   </a>
                 <?php } else { ?>
-                  <span class="text-warning" title="Unable to import umple model">Link</span>
+                  <span class="text-danger" title="Unable to import umple model">Link</span>
                 <?php } ?>
 
               </td>
@@ -197,7 +226,7 @@ $diagramTypes = array_unique($diagramTypes, SORT_STRING);
             if (!$file["successful"]) { ?>
                 <tr class="info-error">
                   <td colspan="6" style="padding: 0 !important;">
-                    <div class="accordian-body collapse" id="message-row-<?php echo $idTag ?>">
+                    <div class="accordian-body collapse" id="message-row-<?= $idTag ?>">
                       <pre><?= $file["message"] ?></pre>
                     </div>
                   </td>

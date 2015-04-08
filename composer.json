@@ -2,7 +2,7 @@
     "name": "umple-ucosp/umpr.ui",
     "description": "Front end for umpr.core",
     "require": {
-      "php": ">=5.4.0",
+      "php": ">=5.3.0",
       "monolog/monolog": "1.13.1",
       "cpliakas/git-wrapper": "~1.4"
     },

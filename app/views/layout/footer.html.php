@@ -4,7 +4,11 @@
       <div class="col-lg-4">
         <h4>About</h4>
         <div class="hline-w"></div>
-        <p>Displays statistics and information about imported projects.</p>
+        <p>
+          A collection of resources from open repositories imported into Umple-based models. All resources are
+          available in a consumable format on
+          <a href="https://github.com/umple-ucosp/umpr.data">Github <span class="fa fa-github"></span></a>.
+        </p>
       </div>
       <div class="col-lg-4">
         <h4>Site Links</h4>
@@ -18,7 +22,7 @@
           </li>
           <li>
             <a href="https://github.com/umple-ucosp/umpr.ui">
-              Github <span class="octicon octicon-mark-github"></span>
+              Github <span class="fa fa-github"></span>
             </a>
           </li>
         </ul>
