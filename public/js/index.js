@@ -147,6 +147,13 @@
 
     })(Table);
 
+    var Application = {};
+    (function (app) {
+        $('.changer a').click(function () {
+            $('')
+        });
+    })(Application);
+
     window.Filters = Filters;
 
 })(window);

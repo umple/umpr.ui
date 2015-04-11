@@ -2,6 +2,22 @@
 .navbar-header .navbar-subbrand {
   font-size: 15px; }
 
+.filter-group {
+  margin-top: 30px; }
+  .filter-group .input-group {
+    width: 90%; }
+  .filter-group .filter-reset {
+    width: 90%; }
+    .filter-group .filter-reset button {
+      float: right; }
+  .filter-group select, .filter-group input {
+    width: 60%; }
+  .filter-group label {
+    width: 100px; }
+  .filter-group #filter-reset-btn {
+    position: relative;
+    top: 15px; }
+
 .umpr-summary .status-badge-success {
   /* merge of bootstrap's .btn .btn-success */
   color: #FFF;
@@ -37,18 +53,5 @@
   padding: 0; }
   .umpr-summary .info-error pre {
     margin: 10px; }
-
-.filter-group {
-  margin-top: 30px; }
-  .filter-group .input-group {
-    width: 90%; }
-  .filter-group .filter-reset {
-    width: 90%; }
-    .filter-group .filter-reset button {
-      float: right; }
-  .filter-group select, .filter-group input {
-    width: 60%; }
-  .filter-group label {
-    width: 100px; }
 
 /*# sourceMappingURL=main.css.map */

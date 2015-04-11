@@ -6,17 +6,16 @@
  * Time: 10:14 PM
  */
 
+$data = l('data');
+
 ?>
 
-<div class="container">
+<nav class="panel">
   <h3>Repositories</h3>
 
-  <div class="panel">
-    <ul>
-      <?php foreach ($repoNames as $name) { ?>
-        <li><?= $name ?></li>
-      <?php } ?>
-    </ul>
-  </div>
-
-</div>
+  <ul>
+    <?php foreach ($data->getRepositoryNames() as $name) { ?>
+      <li><?= $name ?></li>
+    <?php } ?>
+  </ul>
+</nav>

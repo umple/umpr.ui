@@ -45,12 +45,33 @@ setg('IMPORT_STATES', array(
   "Complete"      => 3
 ));
 
+setl("data", ImportRepositorySet::fromFile($GLOBALS['umprRepo']['dir'] . '/meta.json'));
+
 ?>
 
-<div id="files-pane" class="container">
-  <?php require_view('files'); ?>
+<div class="container changer">
+  <ul>
+    <li><a href="#files-pane">Files</a></li>
+    <li><a href="#repository-pane">Repository</a></li>
+  </ul>
 </div>
 
-<div id="repository-pane" class="container">
-  <?php require_view('repositories'); ?>
+<div class="container">
+
+  <div class="row panel">
+    <!-- LEFT PANE -->
+    <div class="col-lg-3 panel-body">
+      <?php require_sub_view('filters'); ?>
+    </div>
+
+    <div class="col-lg-9 panel-body">
+      <?php require_sub_view('files'); ?>
+    </div>
+  </div>
 </div>
+
+<!--<div data-spy="affix" data-offset-top="20" data-offset-bottom="200">-->
+<!--  --><?php //require_sub_view('repositories'); ?>
+<!--</div>-->
+
+
