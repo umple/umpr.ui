@@ -161,7 +161,16 @@ $diagramTypes = array_unique($diagramTypes, SORT_STRING);
                 data-input-type="<?= $file["type"] ?>"
                 data-name="<?= $file["path"] ?>"
                 data-last-state="<?= $file["lastState"] ?>">
-              <td class="col-repo"><?= $repo["name"]; ?></td>
+              <td class="col-repo">
+                <?php if (array_key_exists("remote", $repo)) { ?>
+                  <a target="_blank"
+                     href="<?= $repo["remote"]?>">
+                <?php } ?>
+                    <?= $repo["name"]; ?>
+                <?php if (array_key_exists("remote", $repo)) { ?>
+                  </a>
+                <?php } ?>
+              </td>
               <td class="col-diagram-type"><?= ucfirst($repo["diagramType"]) ?></td>
               <td class="col-input-type"><?= $file["type"]; ?></td>
               <td class="col-name">
@@ -172,7 +181,10 @@ $diagramTypes = array_unique($diagramTypes, SORT_STRING);
                 <div style="float: right">
 
                 <?php if ($file["successful"] || $IMPORT_STATES[$file["lastState"]] > $IMPORT_STATES["Fetch"]) { ?>
-                  <a href="<?= $folder . $file["path"] ?>">(Source)</a>
+                  <a target="_blank"
+                     href="<?= array_key_exists("attrib", $file) ? $file["attrib"]["url"] : $folder . $file["path"] ?>">
+                      (Source)
+                  </a>
                 <?php } else { ?>
                   <span class="text-warning" title="Unable to fetch source">(Source)</span>
                 <?php } ?>

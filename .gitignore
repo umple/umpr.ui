@@ -1,6 +1,7 @@
 # intentionally ignore
 vendor/
 public/data/umpr_repos/
+public/data
 app/logs/
 
 composer.lock
