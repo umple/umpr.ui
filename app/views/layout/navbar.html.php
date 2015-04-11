@@ -16,6 +16,14 @@
 
     </div>
     <div class="navbar-collapse collapse navbar-right">
+        <ul class="nav navbar-nav">
+            <li>
+                <a href="#">Files</a>
+            </li>
+            <li>
+                <a href="#">Repositories</a>
+            </li>
+        </ul>
     </div>
   </div>
 </div>

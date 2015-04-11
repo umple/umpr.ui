@@ -12,6 +12,7 @@ $GLOBALS["testsDir"] = realpath($_SERVER["DOCUMENT_ROOT"] . "/../app/tests");
 $GLOBALS["fixtures"] = realpath($_SERVER["DOCUMENT_ROOT"] . "/../app/fixtures");
 
 require_once $GLOBALS['baseDir'] . '/vendor/autoload.php';
+require_once $GLOBALS['appDir'] . '/models/autoload.php';
 
 setg("pageName",basename($_SERVER['PHP_SELF']));
 

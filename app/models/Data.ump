@@ -1,0 +1,153 @@
+
+namespace cruise.umple.umpr.ui;
+
+/**
+ * 
+ *
+ * @author Kevin Brightwell <kevin.brightwell2@gmail.com>
+ *
+ * @since Apr 9, 2015
+ */
+class ImportAttrib {
+
+  /**
+   * The type of attribution, thus how the URL will work. 
+   * 
+   * @author Kevin Brightwell <kevin.brightwell2@gmail.com>
+   *
+   * @since Apr 9, 2015
+   */
+  Type {
+    /**
+     * The attribution directly links to the content, i.e. ready for download.
+     */
+    RAW { }
+    
+    /**
+     * The attribution link refers to the content, use this if the content is not directly accessible or the page
+     * has ads or similar to cater to. 
+     */
+    REFERENCE { }
+  }
+
+  immutable String remoteLoc;
+}
+
+class ImportFile {
+
+  state {
+    Fetch { }
+      
+    Import  { } 
+    
+    Model { }
+    
+    Completed { }
+  }
+
+  String path;
+  
+  immutable String importType;
+  immutable String message;
+  
+  1 -- 1 ImportAttrib attrib;
+  immutable Boolean isSuccessful;
+
+  public function setStateSimple($state) {
+    $this->setState("State" . $state);
+  }
+
+  public static function fromJson($obj, $parent) {
+    if (array_key_exists("attrib", $obj)) {
+      $remote = $obj["attrib"]["url"];
+      $type = $obj["attrib"]["type"];
+    } else {
+      $remote = null;
+      $type = null;
+    }
+
+    $out = self::newInstance($obj["path"], $obj["type"], 
+      array_key_exists("message", $obj) ? $obj["message"] : null,
+      $obj["successful"], $remote, $parent);
+
+    $out->setStateSimple($obj["lastState"]);
+    if ($type != null) {
+      $out->getAttrib()->setType("Type" . $type);
+    }
+
+    return $out;
+  }
+  
+  key { path }
+}
+
+class ImportRepository {
+  
+  depend cruise.umple.umpr.ui.License;
+
+  diagramType {
+    state { } 
+    structure { } 
+    class { }
+  }
+
+  immutable String name;
+  immutable String description;
+  String path;
+
+  /**
+   * Remotely accessible location for the Repository.
+   */
+  immutable String remoteLoc;
+  immutable License license;
+
+  immutable Double successRate;
+  immutable Double failRate;
+  
+  1 -- * ImportFile files;
+
+  public static function fromJson($obj, $parent) {
+    $out = new self($obj["name"], $obj["description"], $obj["path"], 
+      array_key_exists("remote", $obj) ? $obj["remote"] : null, $obj["license"], $obj["successRate"], $obj["failRate"], $parent);
+    $out->setDiagramType("DiagramType" . $obj["diagramType"]);
+
+    foreach ($obj["files"] as $file) {
+      $out->addFile(ImportFile::fromJson($file, $out));
+    }
+
+    return $out;
+  }
+  
+  key { path }
+}
+
+class ImportRepositorySet {
+  immutable Date date;
+  immutable Time time;
+  
+  String umplePath;
+  defaulted String srcPath = null;
+  
+  1 -- * ImportRepository repositories;
+
+  public static function fromFile($path) {
+    $jsonData = file_get_contents($path);
+    $data = json_decode($jsonData, true);
+
+    return self::fromJson($data);
+  }
+
+  public static function fromJson($obj) {
+    $out = new self($obj["date"], $obj["time"], $obj["umple"]);
+    $out->setSrcPath($obj["src"]);
+
+    foreach ($obj["repositories"] as $repo) {
+      $out->addRepository(ImportRepository::fromJson($repo, $out));
+    }
+
+    return $out;
+  }
+  
+  key { umplePath }
+
+}
