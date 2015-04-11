@@ -31,40 +31,26 @@ function str_ends_with($haystack, $needle)
 }
 
 /** @var $IMPORT_STATES Constant mapping */
-$GLOBALS['IMPORT_STATES'] = array(
-    "Fetch"    => 0,
-    "Import"   => 1,
-    "Model"    => 2,
-    "Complete" => 3
-);
+setg('IMPORT_STATES', array(
+  "StateFetch"    => 0,
+  "Fetch"         => 0,
 
+  "StateImport"   => 1,
+  "Import"        => 1,
 
-$jsonData = file_get_contents($GLOBALS['umprRepo']['dir'] . '/meta.json');
-$data = json_decode($jsonData, true);
+  "StateModel"    => 2,
+  "Model"         => 2,
 
-$repoNames = array();
-$fileTypes = array();
-$diagramTypes = array();
-
-foreach ($data["repositories"] as $repo) {
-  array_push($repoNames, $repo["name"]);
-  array_push($diagramTypes, $repo["diagramType"]);
-
-  foreach ($repo["files"] as $file) {
-    array_push($fileTypes, $file["type"]);
-  }
-}
-
-$repoNames = array_unique($repoNames, SORT_STRING);
-$fileTypes = array_unique($fileTypes, SORT_STRING);
-$diagramTypes = array_unique($diagramTypes, SORT_STRING);
+  "StateComplete" => 3,
+  "Complete"      => 3
+));
 
 ?>
 
-<div class="files-container">
+<div id="files-pane" class="container">
   <?php require_view('files'); ?>
 </div>
 
-<div class="repositories-container">
+<div id="repository-pane" class="container">
   <?php require_view('repositories'); ?>
 </div>

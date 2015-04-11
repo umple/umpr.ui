@@ -44,11 +44,11 @@ class ImportAttrib
     $this->importFile = $aImportFile;
     $this->setType(self::$TypeRAW);
   }
-  public static function newInstance($aRemoteLoc, $aPathForImportFile, $aImportTypeForImportFile, $aMessageForImportFile, $aIsSuccessfulForImportFile, $aImportRepositoryForImportFile)
+  public static function newInstance($aRemoteLoc, $aPathForImportFile, $aImportTypeForImportFile, $aMessageForImportFile, $aSuccessfulForImportFile, $aImportRepositoryForImportFile)
   {
     $thisInstance = new ImportAttrib();
     $thisInstance->remoteLoc = $aRemoteLoc;
-    $thisInstance->importFile = new ImportFile($aPathForImportFile, $aImportTypeForImportFile, $aMessageForImportFile, $aIsSuccessfulForImportFile, $thisInstance, $aImportRepositoryForImportFile);
+    $thisInstance->importFile = new ImportFile($aPathForImportFile, $aImportTypeForImportFile, $aMessageForImportFile, $aSuccessfulForImportFile, $thisInstance, $aImportRepositoryForImportFile);
     return $thisInstance;
   }
 

@@ -51,7 +51,7 @@ class ImportFile {
   immutable String message;
   
   1 -- 1 ImportAttrib attrib;
-  immutable Boolean isSuccessful;
+  immutable Boolean successful;
 
   public function setStateSimple($state) {
     $this->setState("State" . $state);
@@ -127,8 +127,31 @@ class ImportRepositorySet {
   
   String umplePath;
   defaulted String srcPath = null;
+
+  immutable String[] repositoryNames;
+  immutable String[] fileTypes;
+  immutable String[] diagramTypes;
   
   1 -- * ImportRepository repositories;
+
+  after constructor {
+    $repoNames = array();
+    $fileTypes = array();
+    $diagramTypes = array();
+
+    foreach ($this->getRepositories() as $repo) {
+      array_push($repoNames, $repo->getName());
+      array_push($diagramTypes, $repo->getDiagramType());
+
+      foreach ($repo->getFiles() as $file) {
+        array_push($fileTypes, $file->getType());
+      }
+    }
+
+    $this->repositoryNames = array_unique($repoNames, SORT_STRING);
+    $this->fileTypes = array_unique($fileTypes, SORT_STRING);
+    $this->diagramTypes = array_unique($diagramTypes, SORT_STRING);
+  }
 
   public static function fromFile($path) {
     $jsonData = file_get_contents($path);

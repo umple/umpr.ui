@@ -13,7 +13,7 @@ class ImportFile
   private $path;
   private $importType;
   private $message;
-  private $isSuccessful;
+  private $successful;
 
   //ImportFile State Machines
   private static $StateFetch = 1;
@@ -34,7 +34,7 @@ class ImportFile
   // CONSTRUCTOR
   //------------------------
 
-  public function __construct($aPath = null, $aImportType = null, $aMessage = null, $aIsSuccessful = null, $aAttrib = null, $aImportRepository = null)
+  public function __construct($aPath = null, $aImportType = null, $aMessage = null, $aSuccessful = null, $aAttrib = null, $aImportRepository = null)
   {
     if (func_num_args() == 0) { return; }
 
@@ -43,7 +43,7 @@ class ImportFile
     $this->path = $aPath;
     $this->importType = $aImportType;
     $this->message = $aMessage;
-    $this->isSuccessful = $aIsSuccessful;
+    $this->successful = $aSuccessful;
     if ($aAttrib == null || $aAttrib->getImportFile() != null)
     {
       throw new Exception("Unable to create ImportFile due to aAttrib");
@@ -56,13 +56,13 @@ class ImportFile
     }
     $this->setState(self::$StateFetch);
   }
-  public static function newInstance($aPath, $aImportType, $aMessage, $aIsSuccessful, $aRemoteLocForAttrib, $aImportRepository)
+  public static function newInstance($aPath, $aImportType, $aMessage, $aSuccessful, $aRemoteLocForAttrib, $aImportRepository)
   {
     $thisInstance = new ImportFile();
     $thisInstance->path = $aPath;
     $thisInstance->importType = $aImportType;
     $thisInstance->message = $aMessage;
-    $thisInstance->isSuccessful = $aIsSuccessful;
+    $thisInstance->successful = $aSuccessful;
     $thisInstance->attrib = new ImportAttrib($aRemoteLocForAttrib, $thisInstance);
     $thisInstance->setImportRepository($aImportRepository);
     return $thisInstance;
@@ -96,14 +96,14 @@ class ImportFile
     return $this->message;
   }
 
-  public function getIsSuccessful()
+  public function getSuccessful()
   {
-    return $this->isSuccessful;
+    return $this->successful;
   }
 
-  public function isIsSuccessful()
+  public function isSuccessful()
   {
-    return $this->isSuccessful;
+    return $this->successful;
   }
 
   public function getStateFullName()

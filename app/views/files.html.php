@@ -4,15 +4,16 @@ require_once 'home.html.php';
 
 function umple_online_url($name, $type) {
   $DIAGRAM_TYPES = array(
-      "class" => "GvClass",
-      "state" => "GvState"
+      "diagramtypeclass" => "GvClass",
+      "diagramtypestate" => "GvState"
   );
 
   if (!str_ends_with($name, '.ump')) {
     $name = $name . '.ump';
   }
 
-  return sprintf(g('umple-online-url'), srv("SERVER_NAME") . g('umpr-repos') ."/".$name, $DIAGRAM_TYPES[strtolower($type)]);
+  return sprintf(g('umple-online-url'), srv("SERVER_NAME") . g('umpr-repos') . "/" .$name, $DIAGRAM_TYPES[strtolower
+  ($type)]);
 }
 
 $data = ImportRepositorySet::fromFile($GLOBALS['umprRepo']['dir'] . '/meta.json');
@@ -28,7 +29,7 @@ $data = ImportRepositorySet::fromFile($GLOBALS['umprRepo']['dir'] . '/meta.json'
           <label for="filter-repository">Repository &nbsp;</label>
           <select class="input-control" id="filter-repository">
             <option value="null"></option>
-            <?php foreach ($repoNames as $name) { ?>
+            <?php foreach ($data->getRepositoryNames() as $name) { ?>
               <option><?= $name ?></option>
             <?php } ?>
           </select>
@@ -39,7 +40,7 @@ $data = ImportRepositorySet::fromFile($GLOBALS['umprRepo']['dir'] . '/meta.json'
           <label for="filter-diagram-type">Diagram Type &nbsp;</label>
           <select class="input-control" id="filter-diagram-type">
             <option value="null"></option>
-            <?php foreach ($diagramTypes as $dtype) { ?>
+            <?php foreach ($data->getDiagramTypes() as $dtype) { ?>
               <option value="<?= $dtype ?>"><?= ucfirst($dtype) ?></option>
             <?php } ?>
           </select>
@@ -49,7 +50,7 @@ $data = ImportRepositorySet::fromFile($GLOBALS['umprRepo']['dir'] . '/meta.json'
           <label for="filter-input-type">Input Type &nbsp;</label>
           <select class="input-control" id="filter-input-type">
             <option value="null"></option>
-            <?php foreach ($fileTypes as $type) { ?>
+            <?php foreach ($data->getFileTypes() as $type) { ?>
               <option><?= $type ?></option>
             <?php } ?>
           </select>
@@ -66,9 +67,13 @@ $data = ImportRepositorySet::fromFile($GLOBALS['umprRepo']['dir'] . '/meta.json'
           <label for="filter-last-state">Failure State &nbsp;</label>
           <select class="input-control" id="filter-last-state">
             <option value="null"></option>
-            <?php foreach (g('IMPORT_STATES') as $state => $val) { ?>
-              <option value="<?= $state ?>"><?= $state ?></option>
-            <?php } ?>
+            <?php foreach (g('IMPORT_STATES') as $state => $val) {
+              if (!str_starts_with($state, "State")) { ?>
+                <option value="<?= "State" . $state ?>"><?= $state ?></option>
+            <?php
+              }
+            }
+            ?>
           </select>
         </div>
 
@@ -102,41 +107,45 @@ $data = ImportRepositorySet::fromFile($GLOBALS['umprRepo']['dir'] . '/meta.json'
 
         </thead>
 
-        <?php foreach ($data["repositories"] as $repo) { ?>
-          <?php foreach ($repo["files"] as $file) {
-            $folder = g('umpr-repos') . '/' . $repo["name"] . "/";
+        <?php foreach ($data->getRepositories() as $repo) { ?>
+          <?php foreach ($repo->getFiles() as $file) {
+            $folder = g('umpr-repos') . '/' . $repo->getName() . "/";
 
-            $idTag = preg_replace("/\\./", "-", $file["path"]);
+            $idTag = preg_replace("/\\./", "-", $file->getPath());
 
             ?>
             <tr class="info-import" id="row-<?= $idTag ?>"
-                data-repository="<?= $repo["name"] ?>"
-                data-diagram-type="<?= $repo["diagramType"] ?>"
-                data-input-type="<?= $file["type"] ?>"
-                data-name="<?= $file["path"] ?>"
-                data-last-state="<?= $file["lastState"] ?>">
+                data-repository="<?= $repo->getName() ?>"
+                data-diagram-type="<?= $repo->getDiagramType() ?>"
+                data-input-type="<?= $file->getImportType() ?>"
+                data-name="<?= $file->getPath() ?>"
+                data-last-state="<?= $file->getState() ?>">
               <td class="col-repo">
-                <?php if (array_key_exists("remote", $repo)) { ?>
+                <?php if ($repo->getRemoteLoc() != null) { ?>
                   <a target="_blank"
-                     href="<?= $repo["remote"]?>">
+                     href="<?= $repo->getRemoteLoc()?>">
                 <?php } ?>
-                    <?= $repo["name"]; ?>
-                <?php if (array_key_exists("remote", $repo)) { ?>
+                    <?= $repo->getName(); ?>
+                <?php if ($repo->getRemoteLoc() != null) { ?>
                   </a>
                 <?php } ?>
               </td>
-              <td class="col-diagram-type"><?= ucfirst($repo["diagramType"]) ?></td>
-              <td class="col-input-type"><?= $file["type"]; ?></td>
+              <td class="col-diagram-type"><?= ucfirst($repo->getDiagramType()) ?></td>
+              <td class="col-input-type"><?= $file->getImportType(); ?></td>
               <td class="col-name">
-                <?= $file["path"] ?>
+                <?= $file->getPath() ?>
 
                 &nbsp;
 
                 <div style="float: right">
 
-                <?php if ($file["successful"] || $IMPORT_STATES[$file["lastState"]] > $IMPORT_STATES["Fetch"]) { ?>
+                <?php if ($file->isSuccessful() || g('IMPORT_STATES')[$file->getState()] > g('IMPORT_STATES')["Fetch"]) { ?>
                   <a target="_blank"
-                     href="<?= array_key_exists("attrib", $file) ? $file["attrib"]["url"] : $folder . $file["path"] ?>">
+                     href="<?php if ($file->getAttrib() != null) {
+                              echo $file->getAttrib()->getRemoteLoc();
+                            } else {
+                              echo $folder . $file->getPath();
+                            } ?>">
                       (Source)
                   </a>
                 <?php } else { ?>
@@ -145,8 +154,8 @@ $data = ImportRepositorySet::fromFile($GLOBALS['umprRepo']['dir'] . '/meta.json'
 
                 &nbsp;
 
-                <?php if ($file["successful"] || $IMPORT_STATES[$file["lastState"]] >= $IMPORT_STATES["Model"] ) { ?>
-                  <a href="<?= $folder . $file["path"] . ".ump" ?>">(Model)</a>
+                <?php if ($file->isSuccessful() || g('IMPORT_STATES')[$file->getState()] >= g('IMPORT_STATES')["Model"] ) { ?>
+                  <a href="<?= $folder . $file->getPath() . ".ump" ?>">(Model)</a>
                 <?php } else { ?>
                   <span class="text-danger" title="Unable to import umple model">(Model)</span>
                 <?php } ?>
@@ -155,7 +164,7 @@ $data = ImportRepositorySet::fromFile($GLOBALS['umprRepo']['dir'] . '/meta.json'
 
               </td>
               <td class="col-state-info">
-                <?php if ($file["successful"]) { ?>
+                <?php if ($file->isSuccessful()) { ?>
                   <span class="status-badge status-badge-success text-center">
                     <span class="glyphicon glyphicon-ok-circle"></span>Success
                   </span>
@@ -166,18 +175,19 @@ $data = ImportRepositorySet::fromFile($GLOBALS['umprRepo']['dir'] . '/meta.json'
                           data-target="#message-row-<?= $idTag ?>"
                           aria-expanded="false"
                           aria-controls="message-row-<?= $idTag ?>">
-                    <span class="glyphicon glyphicon-remove-circle"></span><?= $file["lastState"] ?>
+                    <span class="glyphicon glyphicon-remove-circle"></span>
+                      <?= substr_replace($file->getState(), "", 0, 5) ?>
                     <span class="glyphicon collapse-direction" ></span>
                   </button>
                 <?php } ?>
               </td>
 
               <td class="col-umple-online">
-                <?php if ($file["successful"] || $IMPORT_STATES[$file["lastState"]] >= $IMPORT_STATES["Model"] ) { ?>
+                <?php if ($file->isSuccessful() || g('IMPORT_STATES')[$file->getState()] >= g('IMPORT_STATES')["Model"] ) { ?>
                   <a target="_blank"
-                     href="<?= umple_online_url($repo["path"]."/".$file["path"], $repo['diagramType']) ?>">
+                     href="<?= umple_online_url($repo->getPath()."/".$file->getPath(), $repo->getDiagramType()) ?>">
                     Link
-                    <?php if (!$file["successful"]) { ?>
+                    <?php if (!$file->isSuccessful()) { ?>
                       &nbsp; <span class="fa fa-exclamation-triangle text-warning" title="Model is invalid." ></span>
                     <?php } ?>
                   </a>
@@ -189,11 +199,11 @@ $data = ImportRepositorySet::fromFile($GLOBALS['umprRepo']['dir'] . '/meta.json'
             </tr>
 
             <?php // write the extra row:
-            if (!$file["successful"]) { ?>
+            if (!$file->isSuccessful()) { ?>
                 <tr class="info-error">
                   <td colspan="6" style="padding: 0 !important;">
                     <div class="accordian-body collapse" id="message-row-<?= $idTag ?>">
-                      <pre><?= $file["message"] ?></pre>
+                      <pre><?= $file->getMessage() ?></pre>
                     </div>
                   </td>
                 </tr>

@@ -197,9 +197,9 @@ class ImportRepository
     return 0;
   }
 
-  public function addFileVia($aPath, $aImportType, $aMessage, $aIsSuccessful, $aAttrib)
+  public function addFileVia($aPath, $aImportType, $aMessage, $aSuccessful, $aAttrib)
   {
-    return new ImportFile($aPath, $aImportType, $aMessage, $aIsSuccessful, $aAttrib, $this);
+    return new ImportFile($aPath, $aImportType, $aMessage, $aSuccessful, $aAttrib, $this);
   }
 
   public function addFile($aFile)
@@ -332,7 +332,7 @@ class ImportRepository
   // DEVELOPER CODE - PROVIDED AS-IS
   //------------------------
   
-  // line 110 ../../../../Data.ump
+  // line 109 ../../../../Data.ump
   public static function fromJson ($obj, $parent) 
   {
     $out = new self($obj["name"], $obj["description"], $obj["path"], 

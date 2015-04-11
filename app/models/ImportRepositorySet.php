@@ -14,6 +14,9 @@ class ImportRepositorySet
   private $time;
   private $umplePath;
   private $srcPath;
+  private $repositoryNames;
+  private $fileTypes;
+  private $diagramTypes;
 
   //ImportRepositorySet Associations
   private $repositories;
@@ -34,7 +37,27 @@ class ImportRepositorySet
     $this->time = $aTime;
     $this->umplePath = $aUmplePath;
     $this->resetSrcPath();
+    $this->repositoryNames = array();
+    $this->fileTypes = array();
+    $this->diagramTypes = array();
     $this->repositories = array();
+    // line 137 "../../../..//Data.ump"
+    $repoNames = array();
+        $fileTypes = array();
+        $diagramTypes = array();
+    
+        foreach ($this->getRepositories() as $repo) {
+          array_push($repoNames, $repo->getName());
+          array_push($diagramTypes, $repo->getDiagramType());
+    
+          foreach ($repo->getFiles() as $file) {
+            array_push($fileTypes, $file->getType());
+          }
+        }
+    
+        $this->repositoryNames = array_unique($repoNames, SORT_STRING);
+        $this->fileTypes = array_unique($fileTypes, SORT_STRING);
+        $this->diagramTypes = array_unique($diagramTypes, SORT_STRING);
   }
 
   //------------------------
@@ -89,6 +112,99 @@ class ImportRepositorySet
   public function getDefaultSrcPath()
   {
     return null;
+  }
+
+  public function getRepositoryName($index)
+  {
+    $aRepositoryName = $this->repositoryNames[$index];
+    return $aRepositoryName;
+  }
+
+  public function getRepositoryNames()
+  {
+    $newRepositoryNames = $this->repositoryNames;
+    return $newRepositoryNames;
+  }
+
+  public function numberOfRepositoryNames()
+  {
+    $number = count($this->repositoryNames);
+    return $number;
+  }
+
+  public function hasRepositoryNames()
+  {
+    $has = repositoryNames.size() > 0;
+    return $has;
+  }
+
+  public function indexOfRepositoryName($aRepositoryName)
+  {
+    $rawAnswer = array_search($aRepositoryName,$this->repositoryNames);
+    $index = $rawAnswer == null && $rawAnswer !== 0 ? -1 : $rawAnswer;
+    return $index;
+  }
+
+  public function getFileType($index)
+  {
+    $aFileType = $this->fileTypes[$index];
+    return $aFileType;
+  }
+
+  public function getFileTypes()
+  {
+    $newFileTypes = $this->fileTypes;
+    return $newFileTypes;
+  }
+
+  public function numberOfFileTypes()
+  {
+    $number = count($this->fileTypes);
+    return $number;
+  }
+
+  public function hasFileTypes()
+  {
+    $has = fileTypes.size() > 0;
+    return $has;
+  }
+
+  public function indexOfFileType($aFileType)
+  {
+    $rawAnswer = array_search($aFileType,$this->fileTypes);
+    $index = $rawAnswer == null && $rawAnswer !== 0 ? -1 : $rawAnswer;
+    return $index;
+  }
+
+  public function getDiagramType($index)
+  {
+    $aDiagramType = $this->diagramTypes[$index];
+    return $aDiagramType;
+  }
+
+  public function getDiagramTypes()
+  {
+    $newDiagramTypes = $this->diagramTypes;
+    return $newDiagramTypes;
+  }
+
+  public function numberOfDiagramTypes()
+  {
+    $number = count($this->diagramTypes);
+    return $number;
+  }
+
+  public function hasDiagramTypes()
+  {
+    $has = diagramTypes.size() > 0;
+    return $has;
+  }
+
+  public function indexOfDiagramType($aDiagramType)
+  {
+    $rawAnswer = array_search($aDiagramType,$this->diagramTypes);
+    $index = $rawAnswer == null && $rawAnswer !== 0 ? -1 : $rawAnswer;
+    return $index;
   }
 
   public function getRepository_index($index)
@@ -250,7 +366,7 @@ class ImportRepositorySet
   // DEVELOPER CODE - PROVIDED AS-IS
   //------------------------
   
-  // line 134 ../../../../Data.ump
+  // line 156 ../../../../Data.ump
   public static function fromFile ($path) 
   {
     $jsonData = file_get_contents($path);
@@ -259,7 +375,7 @@ class ImportRepositorySet
     return self::fromJson($data);
   }
 
-// line 141 ../../../../Data.ump
+// line 163 ../../../../Data.ump
   public static function fromJson ($obj) 
   {
     $out = new self($obj["date"], $obj["time"], $obj["umple"]);
