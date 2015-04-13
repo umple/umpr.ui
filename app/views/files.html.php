@@ -10,16 +10,13 @@ function umple_online_url($name, $type) {
     $name = $name . '.ump';
   }
 
-  return sprintf(g('umple-online-url'), srv("SERVER_NAME") . g('umpr-repos') . "/" .$name, $DIAGRAM_TYPES[strtolower
-  ($type)]);
+  return sprintf(g('umple-online-url'), srv("SERVER_NAME") . g('umpr-repos') . "/" .$name,
+      $DIAGRAM_TYPES[strtolower($type)]);
 }
 
 $data = l("data");
 
 ?>
-
-
-
 
 
 <table class="table table-condensed table-bordered table-condensed umpr-summary">
@@ -56,7 +53,7 @@ $data = l("data");
             </a>
           <?php } ?>
         </td>
-        <td class="col-diagram-type"><?= ucfirst($repo->getDiagramType()) ?></td>
+        <td class="col-diagram-type"><?= ucfirst(str_replace('DiagramType', '', $repo->getDiagramType())) ?></td>
         <td class="col-input-type"><?= $file->getImportType(); ?></td>
         <td class="col-name">
           <?= $file->getPath() ?>

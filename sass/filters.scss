@@ -1,6 +1,8 @@
 
 .filter-group {
   margin-top: 30px;
+  padding-right: 20px;
+  width: 290px;
 
   $labelWidth: 100px;
   $inputWidth: 90%;
@@ -28,5 +30,6 @@
   #filter-reset-btn {
     position: relative;
     top: 15px;
+    margin-right: 15px;
   }
 }

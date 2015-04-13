@@ -32,29 +32,22 @@ function str_ends_with($haystack, $needle)
 
 /** @var $IMPORT_STATES Constant mapping */
 setg('IMPORT_STATES', array(
-  "StateFetch"    => 0,
-  "Fetch"         => 0,
+  "StateFetch"     => 0,
+  "Fetch"          => 0,
 
-  "StateImport"   => 1,
-  "Import"        => 1,
+  "StateImport"    => 1,
+  "Import"         => 1,
 
-  "StateModel"    => 2,
-  "Model"         => 2,
+  "StateModel"     => 2,
+  "Model"          => 2,
 
-  "StateComplete" => 3,
-  "Complete"      => 3
+  "StateCompleted"  => 3,
+  "Completed"       => 3
 ));
 
 setl("data", ImportRepositorySet::fromFile($GLOBALS['umprRepo']['dir'] . '/meta.json'));
 
 ?>
-
-<div class="container changer">
-  <ul>
-    <li><a href="#files-pane">Files</a></li>
-    <li><a href="#repository-pane">Repository</a></li>
-  </ul>
-</div>
 
 <div class="container">
 
@@ -69,9 +62,5 @@ setl("data", ImportRepositorySet::fromFile($GLOBALS['umprRepo']['dir'] . '/meta.
     </div>
   </div>
 </div>
-
-<!--<div data-spy="affix" data-offset-top="20" data-offset-bottom="200">-->
-<!--  --><?php //require_sub_view('repositories'); ?>
-<!--</div>-->
 
 

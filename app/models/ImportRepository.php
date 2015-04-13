@@ -337,7 +337,7 @@ class ImportRepository
   {
     $out = new self($obj["name"], $obj["description"], $obj["path"], 
       array_key_exists("remote", $obj) ? $obj["remote"] : null, $obj["license"], $obj["successRate"], $obj["failRate"], $parent);
-    $out->setDiagramType("DiagramType" . $obj["diagramType"]);
+    $out->setDiagramType("DiagramType" . ucfirst($obj["diagramType"]));
 
     foreach ($obj["files"] as $file) {
       $out->addFile(ImportFile::fromJson($file, $out));

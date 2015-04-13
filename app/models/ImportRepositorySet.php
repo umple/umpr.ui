@@ -41,23 +41,6 @@ class ImportRepositorySet
     $this->fileTypes = array();
     $this->diagramTypes = array();
     $this->repositories = array();
-    // line 137 "../../../..//Data.ump"
-    $repoNames = array();
-        $fileTypes = array();
-        $diagramTypes = array();
-    
-        foreach ($this->getRepositories() as $repo) {
-          array_push($repoNames, $repo->getName());
-          array_push($diagramTypes, $repo->getDiagramType());
-    
-          foreach ($repo->getFiles() as $file) {
-            array_push($fileTypes, $file->getType());
-          }
-        }
-    
-        $this->repositoryNames = array_unique($repoNames, SORT_STRING);
-        $this->fileTypes = array_unique($fileTypes, SORT_STRING);
-        $this->diagramTypes = array_unique($diagramTypes, SORT_STRING);
   }
 
   //------------------------
@@ -273,6 +256,8 @@ class ImportRepositorySet
       $this->repositories[] = $aRepository;
     }
     $wasAdded = true;
+    // line 137 "../../../..//Data.ump"
+    $this->updateReposData();
     return $wasAdded;
   }
 
@@ -286,6 +271,8 @@ class ImportRepositorySet
       $this->repositories = array_values($this->repositories);
       $wasRemoved = true;
     }
+    // line 141 "../../../..//Data.ump"
+    $this->updateReposData();
     return $wasRemoved;
   }
 
@@ -362,11 +349,31 @@ class ImportRepositorySet
     }
   }
 
+   private function updateReposData()
+  {
+    $repoNames = array();
+    $fileTypes = array();
+    $diagramTypes = array();
+
+    foreach ($this->getRepositories() as $repo) {
+      array_push($repoNames, $repo->getName());
+      array_push($diagramTypes, $repo->getDiagramType());
+
+      foreach ($repo->getFiles() as $file) {
+        array_push($fileTypes, $file->getImportType());
+      }
+    }
+
+    $this->repositoryNames = array_unique($repoNames, SORT_STRING);
+    $this->fileTypes = array_unique($fileTypes, SORT_STRING);
+    $this->diagramTypes = array_unique($diagramTypes, SORT_STRING);
+  }
+
   //------------------------
   // DEVELOPER CODE - PROVIDED AS-IS
   //------------------------
   
-  // line 156 ../../../../Data.ump
+  // line 164 ../../../../Data.ump
   public static function fromFile ($path) 
   {
     $jsonData = file_get_contents($path);
@@ -375,7 +382,7 @@ class ImportRepositorySet
     return self::fromJson($data);
   }
 
-// line 163 ../../../../Data.ump
+// line 171 ../../../../Data.ump
   public static function fromJson ($obj) 
   {
     $out = new self($obj["date"], $obj["time"], $obj["umple"]);
@@ -384,6 +391,8 @@ class ImportRepositorySet
     foreach ($obj["repositories"] as $repo) {
       $out->addRepository(ImportRepository::fromJson($repo, $out));
     }
+
+    $out->updateReposData();
 
     return $out;
   }

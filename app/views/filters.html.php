@@ -9,7 +9,7 @@
 $data = l('data');
 ?>
 
-<div class="filter-group" data-spy="affix" data-offset-top="20" data-offset-bottom="60">
+<div class="filter-group" data-spy="affix" >
   <div class="form-horizontal">
     <div class="form-group">
       <h3 class="pull-left">Filters</h3>
@@ -38,7 +38,7 @@ $data = l('data');
       <select class="input-control" id="filter-diagram-type">
         <option value="null"></option>
         <?php foreach ($data->getDiagramTypes() as $dtype) { ?>
-          <option value="<?= $dtype ?>"><?= ucfirst($dtype) ?></option>
+          <option value="<?= $dtype ?>"><?= ucfirst(str_replace('DiagramType', '', $dtype)) ?></option>
         <?php } ?>
       </select>
     </div>

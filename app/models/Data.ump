@@ -109,7 +109,7 @@ class ImportRepository {
   public static function fromJson($obj, $parent) {
     $out = new self($obj["name"], $obj["description"], $obj["path"], 
       array_key_exists("remote", $obj) ? $obj["remote"] : null, $obj["license"], $obj["successRate"], $obj["failRate"], $parent);
-    $out->setDiagramType("DiagramType" . $obj["diagramType"]);
+    $out->setDiagramType("DiagramType" . ucfirst($obj["diagramType"]));
 
     foreach ($obj["files"] as $file) {
       $out->addFile(ImportFile::fromJson($file, $out));
@@ -134,7 +134,15 @@ class ImportRepositorySet {
   
   1 -- * ImportRepository repositories;
 
-  after constructor {
+  after addRepository {
+    $this->updateReposData();
+  }
+
+  after removeRepository {
+    $this->updateReposData();
+  }
+
+  private function updateReposData() {
     $repoNames = array();
     $fileTypes = array();
     $diagramTypes = array();
@@ -144,7 +152,7 @@ class ImportRepositorySet {
       array_push($diagramTypes, $repo->getDiagramType());
 
       foreach ($repo->getFiles() as $file) {
-        array_push($fileTypes, $file->getType());
+        array_push($fileTypes, $file->getImportType());
       }
     }
 
@@ -167,6 +175,8 @@ class ImportRepositorySet {
     foreach ($obj["repositories"] as $repo) {
       $out->addRepository(ImportRepository::fromJson($repo, $out));
     }
+
+    $out->updateReposData();
 
     return $out;
   }
