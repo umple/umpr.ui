@@ -25,7 +25,7 @@ $data = l("data");
     <th>Diagram Type</th>
     <th>Data Type</th>
     <th>Name</th>
-    <th>Successful</th>
+    <th>Last State</th>
     <th>Umple Online</th>
 
   </thead>

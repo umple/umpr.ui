@@ -152,7 +152,7 @@
 
         $('.filter-group[data-spy="affix"]').affix({
             offset: {
-                top: 40,
+                top: 60,
                 bottom: function () {
                     return (this.bottom = $('.footer').outerHeight(true) + 60)
                 }
