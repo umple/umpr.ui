@@ -5,7 +5,12 @@
   }
 }
 
+@import "filters";
+
 .umpr-summary {
+
+  margin-top: 10px;
+
   .status-badge-success {
     /* merge of bootstrap's .btn .btn-success */
 
@@ -53,6 +58,10 @@
     text-align: center;
   }
 
+  .col-umple-online {
+    width: 60px;
+  }
+
   .info-error {
     margin: 0;
     padding: 0;
@@ -60,33 +69,5 @@
     pre {
       margin: 10px;
     }
-  }
-}
-
-
-.filter-group {
-  margin-top: 30px;
-
-  $labelWidth: 100px;
-  $inputWidth: 90%;
-
-  .input-group {
-    width: $inputWidth;
-  }
-
-  .filter-reset {
-    width: $inputWidth;
-
-    button {
-      float: right;
-    }
-  }
-
-  select, input {
-    width: 60%;
-  }
-
-  label {
-    width: $labelWidth;
   }
 }

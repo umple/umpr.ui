@@ -1,0 +1,35 @@
+
+.filter-group {
+  margin-top: 30px;
+  padding-right: 20px;
+  width: 290px;
+
+  $labelWidth: 100px;
+  $inputWidth: 90%;
+
+  .input-group {
+    width: $inputWidth;
+  }
+
+  .filter-reset {
+    width: $inputWidth;
+
+    button {
+      float: right;
+    }
+  }
+
+  select, input {
+    width: 60%;
+  }
+
+  label {
+    width: $labelWidth;
+  }
+
+  #filter-reset-btn {
+    position: relative;
+    top: 15px;
+    margin-right: 15px;
+  }
+}

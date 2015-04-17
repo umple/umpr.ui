@@ -14,51 +14,68 @@
         // All data-* tags used for tables
         var tags = ['repository', 'diagram-type', 'last-state', 'input-type', 'name'];
 
-        var shouldRunFilters = true;
-        function _runFilters() {
-            if (!shouldRunFilters) {
-                return;
-            }
+        var obj = {};
+        var lastParams = {};
+        (function (obj) {
+            var shouldRunFilters = true;
 
-            var $filterGroup = $('.filter-group');
-
-            // child selector used below in $toShow variable
-            var selector = '.info-import';
-            function appendAttrSelector(dataTag, currValue) {
-                if (_.isString(currValue) && currValue !== "null") {
-                    selector += '[data-' + dataTag + '="' + currValue + '"]';
+            obj._runFilters = function () {
+                if (!shouldRunFilters) {
+                    return;
                 }
-            }
 
-            var queryParams = {};
-            tags.forEach(function (tag) {
-                var val = $('#filter-' + tag, $filterGroup).val();
-                if (tag !== 'name') {
-                    appendAttrSelector(tag, val);
-                } else {
-                    if (val !== '') {
-                        selector += '[data-name*=' + val + ']';
+                var $filterGroup = $('.filter-group');
+
+                // child selector used below in $toShow variable
+                var selector = '.info-import';
+                function appendAttrSelector(dataTag, currValue) {
+                    if (_.isString(currValue) && currValue !== "null") {
+                        selector += '[data-' + dataTag + '="' + currValue + '"]';
                     }
                 }
 
-                queryParams[tag] = (_.isNull(val) || _.isUndefined(val) || val === "null") ? "" : val;
-            });
+                var queryParams = {};
+                tags.forEach(function (tag) {
+                    var val = $('#filter-' + tag, $filterGroup).val();
+                    if (tag !== 'name') {
+                        appendAttrSelector(tag, val);
+                    } else {
+                        if (val !== '') {
+                            selector += '[data-name*=' + val + ']';
+                        }
+                    }
 
-            var $umprSummary = $('.umpr-summary');
-            var $allInfo = $('.info-import', $umprSummary);
-            var $toShow = $(selector, $umprSummary);
-            var $toHide = $allInfo.not($toShow);
+                    queryParams[tag] = (_.isNull(val) || _.isUndefined(val) || val === "null") ? "" : val;
+                });
 
-            $('.info-error *[aria-expanded=true]', $umprSummary).collapse('hide');
-            $toHide.hide();
-            $toShow.show();
+                var $umprSummary = $('.umpr-summary');
+                var $allInfo = $('.info-import', $umprSummary);
+                var $toShow = $(selector, $umprSummary);
+                var $toHide = $allInfo.not($toShow);
 
-            console.log("queryParams =", queryParams);
+                $('.info-error *[aria-expanded=true]', $umprSummary).collapse('hide');
+                $toHide.hide();
+                $toShow.show();
 
-            if (shouldRunFilters) {
-                history.pushState({}, "", "?" + $.param(queryParams));
+                if (shouldRunFilters) {
+                    if (!_.isEqual(queryParams, lastParams)) {
+                        var sparams = $.param(queryParams);
+                        history.pushState({}, "", "?" + sparams);
+                        lastParams = queryParams;
+                    }
+                }
+            };
+
+            obj._safeChangeFilters = function (run) {
+                shouldRunFilters = false;
+                run.apply(null, _.rest(arguments));
+                shouldRunFilters = true;
             }
-        }
+
+        })(obj);
+
+        var _safeChangeFilters = obj._safeChangeFilters;
+        var _runFilters = obj._runFilters;
 
         // Init code:
 
@@ -73,21 +90,17 @@
         $('#filter-reset-btn', $filterGroup).click(function () {
             var $filterGroup = $('.filter-group');
 
-            shouldRunFilters = false;
-            tags.forEach(function (tag) {
-                $('#filter-' + tag, $filterGroup).val("null");
+            _safeChangeFilters(function () {
+                tags.forEach(function (tag) {
+                    $('#filter-' + tag, $filterGroup).val("null");
+                });
+                $('#filter-name').val("");
             });
-            $('#filter-name').val("");
 
-            shouldRunFilters = true;
             _runFilters();
         });
 
-        /**
-         * Load from the parameters in the URL => run on page load and history changes
-         * @private
-         */
-        function _loadFromParams() {
+        function _parseUrlParams() {
             var match,
                 pl     = /\+/g,  // Regex for replacing addition symbol with a space
                 search = /([^&=]+)=?([^&]*)/g,
@@ -96,23 +109,36 @@
 
             var urlParams = {};
             while (match = search.exec(query))
-                urlParams[decode(match[1])] = decode(match[2])
+                urlParams[decode(match[1])] = decode(match[2]);
 
-            shouldRunFilters = false;
-            var $filterGroup = $('.filter-group');
-            _.each(urlParams, function (val, key) {
-                if (val !== "") {
-                    $('#filter-' + key, $filterGroup).val(val);
-                } else {
-                    $('#filter-' + key, $filterGroup).val(key === "name" ? "" : "null");
-                }
+            return urlParams;
+        }
+
+        /**
+         * Load from the parameters in the URL => run on page load and history changes
+         * @private
+         */
+        function _loadFromParams() {
+            var urlParams = _parseUrlParams();
+
+            _safeChangeFilters(function () {
+                var $filterGroup = $('.filter-group');
+                _.each(urlParams, function (val, key) {
+                    if (val !== "") {
+                        $('#filter-' + key, $filterGroup).val(val);
+                    } else {
+                        $('#filter-' + key, $filterGroup).val(key === "name" ? "" : "null");
+                    }
+                });
             });
-            shouldRunFilters = true;
             _runFilters();
         }
 
         $(window).bind('popstate', _loadFromParams());
-        $(window).bind('load',     _loadFromParams());
+        $(window).bind('load', function () {
+            lastParams = _parseUrlParams();
+            _loadFromParams();
+        });
 
         /*
          * Expose modules
@@ -123,6 +149,15 @@
          * @type {Function}
          */
         filters.runFilters = _runFilters;
+
+        $('.filter-group[data-spy="affix"]').affix({
+            offset: {
+                top: 60,
+                bottom: function () {
+                    return (this.bottom = $('.footer').outerHeight(true) + 60)
+                }
+            }
+        })
 
     })(Filters);
 
@@ -146,6 +181,13 @@
         $infoErrors.hide();
 
     })(Table);
+
+    var Application = {};
+    (function (app) {
+        $('.changer a').click(function () {
+            $('')
+        });
+    })(Application);
 
     window.Filters = Filters;
 

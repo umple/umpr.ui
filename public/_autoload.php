@@ -43,9 +43,22 @@ spl_autoload_register(function ($class_name) {
   }
 });
 
+
 function setg($lookup,$val)
 {
   $GLOBALS["viewables"][$lookup] = $val;
+}
+
+function g($lookup,$default = "")
+{
+  if (isset($GLOBALS["viewables"][$lookup]))
+  {
+    return $GLOBALS["viewables"][$lookup];
+  }
+  else
+  {
+    return $default;
+  }
 }
 
 function r($lookup,$default = null)
@@ -89,6 +102,12 @@ function setr($lookup,$val)
   $_REQUEST[$lookup] = $val;
 }
 
+function setl($lookup, $val) {
+  $locals = g("locals",array());
+  $locals[$lookup] = $val;
+  setg("locals", $locals);
+}
+
 function l($lookup,$default = "")
 {
   $locals = g("locals",array());
@@ -102,17 +121,6 @@ function l($lookup,$default = "")
   }
 }
 
-function g($lookup,$default = "")
-{
-  if (isset($GLOBALS["viewables"][$lookup]))
-  {
-    return $GLOBALS["viewables"][$lookup];
-  }
-  else
-  {
-    return $default;
-  }
-}
 
 //$worker = new GitWorker($GLOBALS["umprRepo"]["git"]["url"], $GLOBALS["umprRepo"]["git"]["path"],
 //    $GLOBALS["umprRepo"]["git"]["remote"], $GLOBALS["umprRepo"]["git"]["branch"]);

@@ -15,7 +15,5 @@
       </a>
 
     </div>
-    <div class="navbar-collapse collapse navbar-right">
-    </div>
   </div>
 </div>

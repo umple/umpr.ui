@@ -28,6 +28,11 @@ function require_view($viewName,$locals = array())
   require $GLOBALS["appDir"] . "/views/{$viewName}.html.php";
 }
 
+function require_sub_view($viewName)
+{
+  require $GLOBALS["appDir"] . "/views/{$viewName}.html.php";
+}
+
 function redirect_to_error_page($message)
 {
   header("Location: error.php?message=$message");
