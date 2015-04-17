@@ -23,6 +23,9 @@
 
 .umpr-summary {
   margin-top: 10px; }
+  .umpr-summary .popover-title img {
+    height: 20px;
+    margin-top: -4px; }
   .umpr-summary .status-badge-success {
     /* merge of bootstrap's .btn .btn-success */
     color: #FFF;
