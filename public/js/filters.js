@@ -8,30 +8,15 @@ window.Filters = {};
     // All data-* tags used for tables
     var tags = ['repository', 'diagram-type', 'last-state', 'input-type', 'name'];
 
-    function _parseUrlParams() {
-        var match,
-            pl     = /\+/g,  // Regex for replacing addition symbol with a space
-            search = /([^&=]+)=?([^&]*)/g,
-            decode = function (s) { return decodeURIComponent(s.replace(pl, " ")); },
-            query  = window.location.search.substring(1);
-
-        var urlParams = {};
-        while (match = search.exec(query))
-            urlParams[decode(match[1])] = decode(match[2]);
-
-        return urlParams;
-    }
-
     // load the current params
-    var lastParams = _parseUrlParams();
-
+    var lastParams = util.parseUrlParams();
 
     var obj = {};
     (function (obj) {
-        var shouldRunFilters = true;
+        var saveHistoryState = true;
 
         obj._runFilters = function () {
-            if (!shouldRunFilters) {
+            if (!saveHistoryState) {
                 return;
             }
 
@@ -45,43 +30,46 @@ window.Filters = {};
                 }
             }
 
-            var queryParams = {};
+            var queryParams = util.parseUrlParams();
             tags.forEach(function (tag) {
                 var val = $('#filter-' + tag, $filterGroup).val();
                 if (tag !== 'name') {
                     appendAttrSelector(tag, val);
-                } else {
-                    if (val !== '') {
-                        selector += '[data-name*=' + val + ']';
-                    }
+                } else if (val !== '') {
+                    selector += '[data-name*=' + val + ']';
                 }
 
-                queryParams[tag] = (_.isNull(val) || _.isUndefined(val) || val === "null") ? "" : val;
+                if (_.isNull(val) || _.isUndefined(val) || 
+                    (_.isString(val) && (val === "" || val === "null"))) {
+                    delete queryParams.f[tag]; 
+                } else {
+                    queryParams.f[tag] = val;
+                }
             });
 
             var $umprSummary = $('.umpr-summary');
             var $allInfo = $('.info-import', $umprSummary);
             var $toShow = $(selector, $umprSummary);
-            var $toHide = $allInfo.not($toShow);
+
+            $toShow.removeClass('hidden');
+            $allInfo.not($toShow).addClass('hidden');
 
             $('.info-error *[aria-expanded=true]', $umprSummary).collapse('hide');
-            $toHide.hide();
-            $toShow.show();
 
-            if (shouldRunFilters) {
-                if (!_.isEqual(queryParams, lastParams)) {
-                    console.log("FUUUUUUU", queryParams);
-                    var sparams = $.param(queryParams);
-                    history.pushState({}, "", "?" + sparams);
-                    lastParams = queryParams;
-                }
+            if (!_.isEqual(queryParams, lastParams)) {
+                var sparams = $.param(queryParams);
+
+                lastParams = _.clone(queryParams, true);
+                history.pushState(queryParams, null, "?" + sparams);
+
+                $(App).trigger('changed.umpr.filters');
             }
         };
 
         obj._safeChangeFilters = function (run) {
-            shouldRunFilters = false;
+            saveHistoryState = false;
             run.apply(null, _.rest(arguments));
-            shouldRunFilters = true;
+            saveHistoryState = true;
         }
 
     })(obj);
@@ -93,28 +81,31 @@ window.Filters = {};
      * Load from the parameters in the URL => run on page load and history changes
      * @private
      */
-    function _loadFromParams() {
-        var urlParams = _parseUrlParams();
-
+    function _loadFromParams(ev, urlParams) {
         _safeChangeFilters(function () {
             var $filterGroup = $('.filter-group');
-            _.each(urlParams, function (val, key) {
+            _.each(urlParams.f, function (val, key) {
+
+                var $e = $('#filter-' + key, $filterGroup);
+                if ($e.length === 0) {
+                    return ;
+                }
+
                 if (val !== "") {
-                    $('#filter-' + key, $filterGroup).val(val);
+                    $e.val(val);
                 } else {
-                    $('#filter-' + key, $filterGroup).val(key === "name" ? "" : "null");
+                    $e.val(key === "name" ? "" : "null");
                 }
             });
         });
         _runFilters();
     }
 
-    // Init code:
+    $(App).on('load.umpr', _loadFromParams);
 
-    $(window).bind('popstate', _loadFromParams());
-    $(window).bind('load', function () {
-        lastParams = _parseUrlParams();
-        _loadFromParams();
+    $(document).ready(function () {
+        lastParams = util.parseUrlParams();
+        $(App).trigger('load.umpr', [ lastParams ]);
     });
 
     var $filterGroup = $('.filter-group');

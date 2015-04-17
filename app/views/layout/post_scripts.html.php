@@ -5,9 +5,10 @@
 <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
 <![endif]-->
 
-<script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.5.0/lodash.min.js"></script>
+<script src="//code.jquery.com/jquery-2.1.3.min.js"></script>
+<script src="//cdn.rawgit.com/AceMetrix/jquery-deparam/0.3.0/jquery-deparam.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<script src="//cdn.rawgit.com/lodash/lodash/3.7.0/lodash.min.js"></script>
 
 <script src="/scripts/solid/js/retina-1.1.0.js"></script>
 <script src="/scripts/solid/js/jquery.hoverdir.js"></script>
@@ -18,6 +19,7 @@
 <script src="/scripts/solid/js/modernizr.js"></script>
 
 <!-- Home -->
+<script src="/js/util.js"></script>
+<script src="/js/index.js"></script>
 <script src="/js/filters.js"></script>
 <script src="/js/table.js"></script>
-<script src="/js/index.js"></script>
