@@ -62,7 +62,9 @@ $data = l("data");
 
           <div style="float: right">
 
-          <?php if ($file->isSuccessful() || g('IMPORT_STATES')[$file->getState()] > g('IMPORT_STATES')["Fetch"]) { ?>
+          <?php
+            $import_states = g('IMPORT_STATES');
+            if ($file->isSuccessful() || $import_states[$file->getState()] > $import_states["Fetch"]) { ?>
             <a target="_blank"
                href="<?php if ($file->getAttrib() != null) {
                         echo $file->getAttrib()->getRemoteLoc();
