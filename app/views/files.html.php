@@ -79,7 +79,7 @@ $data = l("data");
 
           &nbsp;
 
-          <?php if ($file->isSuccessful() || g('IMPORT_STATES')[$file->getState()] >= g('IMPORT_STATES')["Model"] ) { ?>
+          <?php if ($file->isSuccessful() || $import_states[$file->getState()] >= $import_states["Model"] ) { ?>
             <a href="<?= $folder . $file->getPath() . ".ump" ?>">(Model)</a>
           <?php } else { ?>
             <span class="text-danger" title="Unable to import umple model">(Model)</span>
@@ -108,7 +108,7 @@ $data = l("data");
         </td>
 
         <td class="col-umple-online">
-          <?php if ($file->isSuccessful() || g('IMPORT_STATES')[$file->getState()] >= g('IMPORT_STATES')["Model"] ) { ?>
+          <?php if ($file->isSuccessful() || $import_states[$file->getState()] >= $import_states["Model"] ) { ?>
             <a target="_blank"
                href="<?= umple_online_url($repo->getPath()."/".$file->getPath(), $repo->getDiagramType()) ?>">
               Link
