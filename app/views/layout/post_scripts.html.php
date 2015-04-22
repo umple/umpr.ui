@@ -18,4 +18,6 @@
 <script src="/scripts/solid/js/modernizr.js"></script>
 
 <!-- Home -->
+<script src="/js/filters.js"></script>
+<script src="/js/table.js"></script>
 <script src="/js/index.js"></script>

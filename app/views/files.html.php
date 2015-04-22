@@ -18,6 +18,22 @@ $data = l("data");
 
 ?>
 
+<script id="repo-information" type="application/javascript">
+
+  var Meta = {};
+  (function (root) {
+    root.data = {
+      <?php foreach ($data->getRepositories() as $repo) {
+        echo '"' . $repo->getName() . '": {';
+        echo '"license": "' . $repo->getLicense() . '",';
+        echo '"description": "' . preg_replace('/\n/', '<br/>', htmlentities($repo->getDescription())) . '",';
+        echo '"name": "' . $repo->getName() . '",';
+        echo '"remote": "' . $repo->getRemoteLoc() . '"';
+        echo '},';
+      } ?>
+    }
+  })(Meta);
+</script>
 
 <table class="table table-condensed table-bordered table-condensed umpr-summary">
   <thead>
@@ -45,8 +61,7 @@ $data = l("data");
           data-last-state="<?= $file->getState() ?>">
         <td class="col-repo">
           <?php if ($repo->getRemoteLoc() != null) { ?>
-            <a target="_blank"
-               href="<?= $repo->getRemoteLoc()?>">
+            <a href="#" data-toggle="popover">
           <?php } ?>
               <?= $repo->getName(); ?>
           <?php if ($repo->getRemoteLoc() != null) { ?>
