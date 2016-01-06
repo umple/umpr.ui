@@ -19,7 +19,6 @@ $data = l("data");
 ?>
 
 <script id="repo-information" type="application/javascript">
-
   var Meta = {};
   (function (root) {
     root.data = {
@@ -35,30 +34,39 @@ $data = l("data");
   })(Meta);
 </script>
 
+
+<?php require_view('pagination_controls', array('bottom' => false)) ?>
+
 <table class="table table-condensed table-bordered table-condensed umpr-summary">
   <thead>
-    <th>Repository</th>
-    <th>Diagram Type</th>
-    <th>Data Type</th>
-    <th>Name</th>
-    <th>Last State</th>
-    <th>Umple Online</th>
+    <th class="col-idx">          No.</th>
+    <th class="col-repo">         Repository</th>
+    <th class="col-diagram-type"> Diagram Type</th>
+    <th class="col-input-type">   Data Type</th>
+    <th class="col-name">         Name</th>
+    <th class="col-state-info">   Last State</th>
+    <th class="col-umple-online"> Umple Online</th>
 
   </thead>
 
-  <?php foreach ($data->getRepositories() as $repo) { ?>
-    <?php foreach ($repo->getFiles() as $file) {
+
+  <?php
+  $idx = 1;
+  foreach ($data->getRepositories() as $repo) {
+    foreach ($repo->getFiles() as $file) {
       $folder = g('umpr-repos') . '/' . $repo->getName() . "/";
 
       $idTag = preg_replace("/\\./", "-", $file->getPath());
 
       ?>
       <tr class="info-import" id="row-<?= $idTag ?>"
+          data-index="<?= $idx ?>"
           data-repository="<?= $repo->getName() ?>"
           data-diagram-type="<?= $repo->getDiagramType() ?>"
           data-input-type="<?= $file->getImportType() ?>"
           data-name="<?= $file->getPath() ?>"
           data-last-state="<?= $file->getState() ?>">
+        <td class="col-idx"><?= $idx ?></td>
         <td class="col-repo">
           <?php if ($repo->getRemoteLoc() != null) { ?>
             <a href="#" data-toggle="popover">
@@ -140,16 +148,24 @@ $data = l("data");
 
       <?php // write the extra row:
       if (!$file->isSuccessful()) { ?>
-          <tr class="info-error">
-            <td colspan="6" style="padding: 0 !important;">
-              <div class="accordian-body collapse" id="message-row-<?= $idTag ?>">
-                <pre><?= $file->getMessage() ?></pre>
-              </div>
-            </td>
-          </tr>
+        <tr class="info-error">
+          <td colspan="7" style="padding: 0 !important;">
+            <div class="accordian-body collapse" id="message-row-<?= $idTag ?>">
+              <p class="error-trace"><?php
+                // replace all '\n' with '<br>' make the first line <strong>, replace tabs with two spaces
+                $arr = preg_split('/\n/', preg_replace('/\t/', '&nbsp;&nbsp;', $file->getMessage()));
+                $arr[0] = "<strong>" . $arr[0] . "</strong>";
+                echo implode('<br/>', $arr);
+              ?></p>
+            </div>
+          </td>
+        </tr>
       <?php } ?>
   <?php
+      $idx = $idx + 1;
     }
   }
   ?>
 </table>
+
+<?php require_view('pagination_controls', array('bottom' => true)) ?>
